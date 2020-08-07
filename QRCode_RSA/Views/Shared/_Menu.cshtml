@@ -1,0 +1,81 @@
+﻿
+
+<nav class="navbar navbar-dark bg-primary navbar-expand-md" style="        margin-bottom: 20px">
+    <a class="navbar-brand" href="#" style='cursor: default;'>QL Đảng viên</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navb">
+        <ul class="navbar-nav mr-auto">
+            @{
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/DangVien">Đảng viên</a>
+                    </li>
+
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/DaiBieu">Đại biểu</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/DaiHoiTaiLieu">Tài liệu</a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/DanhGiaDV">Đánh giá</a>
+                    </li>
+
+                @*var chuyenDenDi = MenuHelper.HienThiChuyenDenDi();
+                    if (chuyenDenDi.IsShow)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                                Chuyển Đến/Đi
+                            </a>
+                            <div class="dropdown-menu">
+                                @{
+                                    foreach (var item in chuyenDenDi.MenuItems)
+                                    {
+                                        <a class='dropdown-item' href='/@Html.Raw(item.Ten)'> @Html.Raw(item.MoTa)</a>
+                                    }
+                                }
+                            </div>
+                        </li>
+                    }*@
+            }
+
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    @*@{
+                        @Session["User"].ToString()
+                        ;}*@
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="/ThongTinCaNhan">Thông tin cá nhân</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/ThongTinCaNhan/DoiMatKhau">Đổi mật khẩu</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/TrangChu/LogOut">Đăng xuất</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('li.active').removeClass('active');
+        if (location.pathname === "/DangVien") {
+            $('a[href="/"]').closest('li').addClass('active');
+        } else {
+            $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+        }
+
+        var columnCount = $(".columns a").length;
+        if (columnCount <= 6) {
+            $(".columns").addClass("one-col");
+        } else if (columnCount > 6) {
+            $(".columns").addClass("dropdown-multicol2");
+        }
+    });
+</script>

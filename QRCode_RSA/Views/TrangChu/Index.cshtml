@@ -1,0 +1,71 @@
+﻿@using QRCode_RSA.Models.HtmlHelpers
+@{
+    ViewBag.Title = "QRCode RSA";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<style>
+    .input-icons i {
+        position: absolute;
+    }
+
+    .input-icons {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .icon222 {
+        padding: 8px;
+        color: green;
+        font-size: 25px;
+        min-width: 50px;
+        text-align: center;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 5px;
+        text-align: center;
+        border-radius: 5px !important;
+    }
+</style>
+<h2 style="text-align:center; margin: 20px 0px 20px 0px;color:#fff"> <b>PHẦN MỀM QRCODE</b></h2>
+<hr />
+<div class="row m-b-20">
+    <fieldset class="col-sm-5" style="border:1px solid #fff;border-radius:5px !important;text-align:center">
+        <legend style="width:auto;color:#fff">QUÉT MÃ QR</legend>
+        <div class="row">
+            <div class="col-sm-12">
+                <img src="/images/QRCode_VNPT.png" style="margin-bottom:20px;max-width:100%;width:100%;height:219px" />
+                <div class="input-icons">
+                    <i class="fa fa-qrcode icon222" aria-hidden="true"></i>
+                    <input type="text" placeholder="Nhập mã cần quét" id="txt_barcode" class="input-field" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div class="col-sm-1"></div>
+    <fieldset class="col-sm-6 row" style="border:1px solid #fff;border-radius:5px !important;text-align:center">
+        <legend style="width:auto;color:#fff">THÔNG TIN </legend>
+        <div class="row">
+            <div class="col-sm-4"><img id="HinhAnhDaiBieu" src="/images/logo_dai_hoi.jpg" style="max-width:100%;height:100%;max-height:250px;padding:0;background-color:white" /></div>
+            <div class="col-sm-8 padding-responsive" style="text-align:justify;color:#fff;font-size:22px">
+                <b>Họ Tên: </b> <span id="HoTen"></span> <br />
+                <b>Chức Vụ: </b> <span id="ChucVu"></span> <br />
+                @*<b>Đơn vị CT: </b> <span id="DonVi"></span> <br />*@
+                <b style="color:#fbff00">Vị trí ghế: <span style="color:#fbff00" id="ViTriGhe"></span> <br /></b>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<style>
+
+    .btn-action {
+        margin: 5px 5px !important;
+    }
+</style>
+
+
+<script src="@Url.ContentVersion("~/Content/js/TrangChu/index.js")" type="text/javascript"></script>
+
