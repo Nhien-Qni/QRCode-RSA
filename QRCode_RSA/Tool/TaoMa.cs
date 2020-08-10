@@ -23,19 +23,20 @@ namespace QRCode_RSA.Tool
 
             //Pair of public and private key as XML string.
             //Do not share this to other party
-            PublicOnlyKeyXML = rsa.ToXmlString(true);
+            PublicOnlyKeyXML = rsa.ToXmlString(false);
 
             //Private key in xml file, this string should be share to other parties
-            PrivateKeyXML = rsa.ToXmlString(false);
+            PrivateKeyXML = rsa.ToXmlString(true);
 
         }
-        public string Encrypt_string(string publicKeyXML, string dataToDycript)
+        public string Encrypt_string(string publicKeyXML, byte[] dataToDycript)
         {
             try
             {
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(1024);
                 rsa.FromXmlString(publicKeyXML);
-                string EncryptedResult = System.Convert.ToBase64String(rsa.Encrypt(System.Text.Encoding.Unicode.GetBytes(dataToDycript), true));
+                var test = rsa.Encrypt(dataToDycript, true);
+                string EncryptedResult = System.Convert.ToBase64String(test);
                 return EncryptedResult;
             }
             catch (Exception e)
@@ -43,18 +44,18 @@ namespace QRCode_RSA.Tool
                 return "Mã hóa thất bại" + e.Message;
             }
         }
-        public string Decrypt_string(string publicPrivateKeyXML, string encryptedData)
+        public byte[] Decrypt_string(string publicPrivateKeyXML, string encryptedData)
         {
             try
             {
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(1024);
                 rsa.FromXmlString(publicPrivateKeyXML);
                 byte[] toDecryptData = System.Convert.FromBase64String(encryptedData);
-                return System.Text.Encoding.Unicode.GetString(rsa.Decrypt(toDecryptData, true));
+                return rsa.Decrypt(toDecryptData, true);
             }
-            catch
+            catch (Exception e)
             {
-                return "Giải mã thất bại"; ;
+                return null;
             }
         }
     }
