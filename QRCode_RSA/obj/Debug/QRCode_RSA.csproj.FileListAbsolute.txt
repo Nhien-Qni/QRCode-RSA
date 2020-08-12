@@ -92,3 +92,7 @@ C:\Users\Nhien\Desktop\Trân chó\QRCode-RSA\QRCode_RSA\bin\System.Web.Mvc.xml
 C:\Users\Nhien\Desktop\Trân chó\QRCode-RSA\QRCode_RSA\obj\Debug\QRCode_RSA.csprojResolveAssemblyReference.cache
 C:\Users\Nhien\Desktop\Trân chó\QRCode-RSA\QRCode_RSA\obj\Debug\QRCode_RSA.dll
 C:\Users\Nhien\Desktop\Trân chó\QRCode-RSA\QRCode_RSA\obj\Debug\QRCode_RSA.pdb
+C:\Users\Nhien\Desktop\Trân chó\QRCode-RSA\QRCode_RSA\bin\EntityFramework.dll
+C:\Users\Nhien\Desktop\Trân chó\QRCode-RSA\QRCode_RSA\bin\EntityFramework.SqlServer.dll
+C:\Users\Nhien\Desktop\Trân chó\QRCode-RSA\QRCode_RSA\bin\EntityFramework.xml
+C:\Users\Nhien\Desktop\Trân chó\QRCode-RSA\QRCode_RSA\bin\EntityFramework.SqlServer.xml

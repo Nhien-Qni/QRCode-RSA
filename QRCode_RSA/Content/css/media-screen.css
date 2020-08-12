@@ -1,0 +1,29 @@
+﻿@media only screen and (max-width: 768px) {
+    .btn-add-mb {
+        margin-bottom: 5px !important;
+    }
+
+    .input-search-mt {
+        margin-top: 5px !important;
+    }
+
+    .dropdown-multicol2 {
+        -moz-column-count: 1 !important;
+        /* Firefox */
+        -webkit-column-count: 1 !important;
+        /* Safari and Chrome */
+        column-count: 1 !important;
+    }
+}
+
+@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .max-width-90-per {
+        max-width: 90% !important;
+    }
+}
+
+@media (min-width: 576px) {
+    .extend-width {
+        max-width: 700px;
+    }
+}

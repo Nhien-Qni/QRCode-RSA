@@ -1,8 +1,67 @@
-﻿
+﻿@model List<QRCode_RSA.Models.User>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LoginLayoutPage.cshtml";
 }
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <b>DANH SÁCH NGƯỜI DÙNG</b>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table_giaybao" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <td align="left" class="title_giaybao">
+                                                STT
+                                            </td>
+                                            <td class="title_giaybao">
+                                                Họ tên
+                                            </td>
+                                            <td class="title_giaybao">
+                                                Quốc tịch
+                                            </td>
+                                            <td class="title_giaybao">
+                                                Nơi cư trú
+                                            </td>
+                                            <td class="title_giaybao">
+                                                Tạo QR Image
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count > 0)
+                                        {
+                                            int i = 1;
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td> @i</td>
+                                                    <td> @item.HoTen</td>
+                                                    <td> @item.QuocGia</td>
+                                                    <td> @item.NoiCuTru</td>
+                                                    <td> </td>
+                                                </tr>
+                                                @(i++)
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-<h2>Index</h2>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 

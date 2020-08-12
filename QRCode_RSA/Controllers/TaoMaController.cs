@@ -10,22 +10,25 @@ using System.Drawing.Imaging;
 using System.Security.Cryptography;
 using System.Text;
 using System.Globalization;
+using QRCode_RSA.Models;
 
 namespace QRCode_RSA.Controllers
 {
     public class TaoMaController : Controller
     {
-       
+        QRCodeEntities db = new QRCodeEntities();
         Tool.TaoMa rsa = new Tool.TaoMa();
         // GET: TaoMa
         public ActionResult Index()
         {
+            db.Users.ToList();
             //cc
             ////B1 : Trích thông tin và tạo mã từ khóa bí mật
             ////Tạo PublicKey, PrivateKey
             rsa.AssignNewKey("PassW0rd@123");
             ////B2 : Băm nội dung thông tin
             byte[] duLieuBam = HashString("thong tin can ma hoa");
+            var t = Convert.ToBase64String(duLieuBam);
             ////B3: Mã hóa dữ liệu băm => Chữ ký số
             var duLieuMaHoa = rsa.Encrypt_string(rsa.PublicOnlyKeyXML, duLieuBam);
             ////B4: Tạo QrCode từ dữ liệu đã mã hóa
@@ -36,13 +39,14 @@ namespace QRCode_RSA.Controllers
             string dulieuLayDuoc = FromHexString(TaoQR);
             ////B6: Giải mã dữ liệu
             var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, dulieuLayDuoc);
+            var bangroDbase64 = Convert.ToBase64String(bangroD);
             // B7 : Băm thông tin giải mã được 
             //string duLieuDaGiaiMa = HashString("thông tin cần mã hóa");
             ////B7 So sánh bangroD vs duLieuMaHoa
-            if (bangroD == null)
+            if (bangroDbase64.Equals(t))
             //    return null;
-            return View();
-            return View();
+                return View(db.Users.ToList());
+            return View(db.Users.ToList());
         }
         [HttpPost]
         public ActionResult TaoMa(string key)
