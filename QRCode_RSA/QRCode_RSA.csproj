@@ -134,6 +134,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\dashboard.css" />
     <Content Include="Content\css\media-screen.css" />
     <Content Include="Content\js\TrangChu\index.js" />
     <Content Include="Global.asax" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Content\ultilities\Common.cs" />
     <Compile Include="Controllers\TaoMaController.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
     <Compile Include="Global.asax.cs">
@@ -210,7 +212,9 @@
   <ItemGroup>
     <Folder Include="Content\fonts\font-awesome-4.7.0\" />
     <Folder Include="Content\vendor\bootstrap-4.3.1\" />
+    <Folder Include="Content\vendor\bootstrap-table-master\" />
     <Folder Include="Content\vendor\jquery-toast-plugin\" />
+    <Folder Include="Content\vendor\jquery-ui-1.12.1\" />
     <Folder Include="Content\vendor\jquery\" />
     <Folder Include="Properties\App_Data\" />
   </ItemGroup>

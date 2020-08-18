@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QRCode_RSA.Content.ultilities;
+using QRCode_RSA.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,14 +10,22 @@ namespace QRCode_RSA.Controllers
 {
     public class TrangChuController : Controller
     {
+        QRCodeEntities db = new QRCodeEntities();
+        Tool.TaoMa rsa = new Tool.TaoMa();
         // GET: TrangChu
         public ActionResult Index()
         {
+            rsa.AssignNewKey("PassW0rd@123");
             return View();
         }
         [HttpPost]
         public JsonResult QuetMa(string key)
         {
+            string dulieuLayDuoc = Common.FromHexString(key);
+            var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, dulieuLayDuoc);
+            var bangroDbase64 = Convert.ToBase64String(bangroD);
+            //if (bangroDbase64.Equals(t))
+            //    return View(db.Users.ToList());
             //JsonResult jsonresult;
             //try
             //{

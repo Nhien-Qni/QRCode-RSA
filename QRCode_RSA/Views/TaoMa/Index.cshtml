@@ -16,40 +16,38 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="table_giaybao" style="width: 100%">
+                                <table class="table table-fixed table-hover" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <td align="left" class="title_giaybao">
+                                            <td align="left" class="title">
                                                 STT
                                             </td>
-                                            <td class="title_giaybao">
+                                            <td class="title">
                                                 Họ tên
                                             </td>
-                                            <td class="title_giaybao">
+                                            <td class="title">
                                                 Quốc tịch
                                             </td>
-                                            <td class="title_giaybao">
+                                            <td class="title">
                                                 Nơi cư trú
                                             </td>
-                                            <td class="title_giaybao">
-                                                Tạo QR Image
+                                            <td class="title">
+                                                QR Image
                                             </td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if (Model != null && Model.Count > 0)
                                         {
-                                            int i = 1;
-                                            foreach (var item in Model)
+                                            for (int i = 1; i<= Model.Count; i++)
                                             {
                                                 <tr>
                                                     <td> @i</td>
-                                                    <td> @item.HoTen</td>
-                                                    <td> @item.QuocGia</td>
-                                                    <td> @item.NoiCuTru</td>
-                                                    <td> </td>
+                                                    <td> @Model[i-1].HoTen</td>
+                                                    <td> @Model[i-1].QuocGia</td>
+                                                    <td> @Model[i-1].NoiCuTru</td>
+                                                    <td> <button class="form-control btn-success" style="width:auto" onclick="TaoQR('@Model[i-1].HoTen')"><i class="fa fa-picture-o"></i> Tạo</button></td>
                                                 </tr>
-                                                @(i++)
                                             }
                                         }
                                     </tbody>
@@ -64,4 +62,51 @@
         </div>
     </div>
 </section>
+<script>
+    function TaoQR(data)
+    {
+        var fd = new FormData();
+        fd.append("data", data);
+        $.ajax({
+            url: "/TaoMa/TaoQR",
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: "POST",
+            success: function (data) {
+                base64toImage(data.Content, data.FileName);
+            },
+            error: function () {
+                toastr.error(translate("loi_xay_ra"));
+                window.location.reload();
+            }
+        });
+    }
+    function base64toImage(data, fileName) {
+        var bufferArray = base64ToArrayBuffer(data);
+        var blobStore = new Blob([bufferArray], { type: "image/jpeg" });
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blobStore);
+            return;
+        }
+        var data = window.URL.createObjectURL(blobStore);
+        var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = data;
+        link.download = fileName;
+        link.click();
+        window.URL.revokeObjectURL(data);
+        link.remove();
+    }
+    function base64ToArrayBuffer(data) {
+        var bString = window.atob(data);
+        var bLength = bString.length;
+        var bytes = new Uint8Array(bLength);
+        for (var i = 0; i < bLength; i++) {
+            var ascii = bString.charCodeAt(i);
+            bytes[i] = ascii;
+        }
+        return bytes;
+    };
+</script>
 
