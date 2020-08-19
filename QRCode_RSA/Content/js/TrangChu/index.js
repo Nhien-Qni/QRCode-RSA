@@ -9,24 +9,23 @@ function QuetMa() {
         url: '/TrangChu/QuetMa',
         type: "POST",
         dataType: "json",
-        data: { "MaDaiBieu": $("#txt_barcode").val() },
+        data: { "key": $("#txt_barcode").val() },
         success: function (data) {
-            if (data.Data) {
-                toastr.success(data.Message);
-                $("#HinhAnhDaiBieu").html(data.daiBieu.Avatar).attr({ "src": data.daiBieu.Avatar == null ? "/images/person.png" : data.daiBieu.Avatar });
-                $("#HoTen").html(data.daiBieu.HoTen)
-                $("#ChucVu").html(data.daiBieu.ChucVu)
-                $("#DonVi").html(data.daiBieu.DonVi)
-                $("#ViTriGhe").html(data.daiBieu.SoGhe)
+            if (data != null && data.isError == null) {
+                //toastr.success(data.Message);
+                $("#HinhAnh").html(data.Avatar).attr({ "src": data.Avatar == null ? "/images/person.png" : data.Avatar });
+                $("#HoTen").html(data.HoTen)
+                $("#NoiCuTru").html(data.NoiCuTru)
+                $("#QuocGia").html(data.QuocGia)
                 $('#txt_barcode').val("");
                 focustb();
             }
             else {
-                toastr.error(data.Message);
-                $("#HinhAnhDaiBieu").attr({ "src": "/images/person.png" });
+                toastr.error(data.isError);
+                $("#HinhAnh").attr({ "src": "/images/person.png" });
                 $("#HoTen").html("")
-                $("#ChucVu").html("")
-                $("#ViTriGhe").html("")
+                $("#NoiCuTru").html("")
+                $("#QuocGia").html("")
                 $('#txt_barcode').val("");
                 focustb();
             }

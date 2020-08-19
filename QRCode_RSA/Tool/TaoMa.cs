@@ -44,14 +44,14 @@ namespace QRCode_RSA.Tool
                 return "Mã hóa thất bại" + e.Message;
             }
         }
-        public byte[] Decrypt_string(string publicPrivateKeyXML, string encryptedData)
+        public string Decrypt_string(string publicPrivateKeyXML, string encryptedData)
         {
             try
             {
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(1024);
                 rsa.FromXmlString(publicPrivateKeyXML);
                 byte[] toDecryptData = System.Convert.FromBase64String(encryptedData);
-                return rsa.Decrypt(toDecryptData, true);
+                return System.Text.Encoding.Unicode.GetString(rsa.Decrypt(toDecryptData, true));
             }
             catch (Exception e)
             {

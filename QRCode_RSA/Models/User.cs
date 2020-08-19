@@ -18,5 +18,6 @@ namespace QRCode_RSA.Models
         public string HoTen { get; set; }
         public string QuocGia { get; set; }
         public string NoiCuTru { get; set; }
+        public string Avatar { get; set; }
     }
 }

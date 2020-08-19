@@ -15,42 +15,27 @@ namespace QRCode_RSA.Controllers
         // GET: TrangChu
         public ActionResult Index()
         {
-            rsa.AssignNewKey("PassW0rd@123");
             return View();
         }
         [HttpPost]
         public JsonResult QuetMa(string key)
         {
-            string dulieuLayDuoc = Common.FromHexString(key);
-            var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, dulieuLayDuoc);
-            var bangroDbase64 = Convert.ToBase64String(bangroD);
-            //if (bangroDbase64.Equals(t))
-            //    return View(db.Users.ToList());
-            //JsonResult jsonresult;
-            //try
-            //{
-            //    //var splitString = duLieu.Split('$');
-            //    //var MaDaiBieu = splitString[1].Trim();
-            //    using (var db = new ConnectDB())
-            //    {
-            //        var checkExist = db.DaiBieus.FirstOrDefault(o => o.MaDaiBieu == key);
-            //        if (checkExist != null)
-            //        {
-            //            checkExist.DiemDanh = true;
-            //            db.SaveChanges();
-            //            jsonresult = Json(new { Data = true, Message = "Điểm danh thành công", daiBieu = checkExist });
-            //            jsonresult.MaxJsonLength = int.MaxValue;
-            //        }
-            //        jsonresult = Json( new { Data = false, Message = "Không có đại biểu này" });
-            //        return jsonresult;
-            //    }
-            //}
-            //catch
-            //{
-            //    jsonresult = Json(new { Data = false, Message = "Không có đại biểu này" });
-            //    return jsonresult;
-            //}
-            return null;
+            rsa.AssignNewKey("PassW0rd@123");
+            //string dulieuLayDuoc = Common.FromHexString(key);
+            var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, key);
+            if (!string.IsNullOrEmpty(bangroD))
+            {
+                foreach (var item in db.Users.ToList())
+                {
+                    if (bangroD.Equals(System.Text.Encoding.Unicode.GetString(Common.HashString(item.HoTen))))
+                    {
+                        return Json(item, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+           
+            //var bangroDbase64 = Convert.ToBase64String(bangroD);
+            return Json(new { isError = "QRcode không chính xác"},JsonRequestBehavior.AllowGet);
         }
     }
 }

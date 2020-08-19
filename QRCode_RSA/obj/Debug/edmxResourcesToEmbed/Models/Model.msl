@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="QRCodeModel.User">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Avatar" ColumnName="Avatar" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="HoTen" ColumnName="HoTen" />
           <ScalarProperty Name="QuocGia" ColumnName="QuocGia" />

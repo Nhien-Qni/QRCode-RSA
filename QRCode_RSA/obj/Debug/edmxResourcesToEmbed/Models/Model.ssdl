@@ -8,6 +8,7 @@
     <Property Name="HoTen" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="QuocGia" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="NoiCuTru" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Avatar" Type="nvarchar" MaxLength="700" />
   </EntityType>
   <EntityContainer Name="QRCodeModelStoreContainer">
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />

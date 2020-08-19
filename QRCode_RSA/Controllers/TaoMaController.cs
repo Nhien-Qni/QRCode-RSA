@@ -36,21 +36,13 @@ namespace QRCode_RSA.Controllers
         {
             // Tạo PublicKey, PrivateKey
             rsa.AssignNewKey("PassW0rd@123");
-            byte[] duLieuBam = HashString(data);
-            var t = Convert.ToBase64String(duLieuBam);
+            byte[] duLieuBam = Common.HashString(data);
+            //var t = Convert.ToBase64String(duLieuBam);
             var duLieuMaHoa = rsa.Encrypt_string(rsa.PublicOnlyKeyXML, duLieuBam);
-            string TaoQR = Common.ToHexString(duLieuMaHoa);
-            return Json(TaoQRCode(TaoQR), JsonRequestBehavior.AllowGet);
+            //string TaoQR = Common.FromHexString(duLieuMaHoa);
+            return Json(TaoQRCode(duLieuMaHoa), JsonRequestBehavior.AllowGet);
         }
-        public static byte[] HashString(string data)
-        {
-            //Declarations
-            var sha = SHA256.Create();
-
-            var originalBytes = Encoding.Default.GetBytes(CreateSalt(data));
-
-            return  sha.ComputeHash(originalBytes);
-        }
+       
         public FileResultViewModel TaoQRCode(string data)
         {
             //Tạo QRCode
@@ -63,8 +55,8 @@ namespace QRCode_RSA.Controllers
                 using (Bitmap bitMap = qrCode.GetGraphic(20))
                 {
                     bitMap.Save(ms, ImageFormat.Jpeg);
-                    string filePath = Path.Combine(Server.MapPath("/images"), DateTime.UtcNow.ToBinary() + ".jpg");
-                    System.IO.File.WriteAllBytes(filePath, ms.ToArray());
+                    //string filePath = Path.Combine(Server.MapPath("/images"), DateTime.UtcNow.ToBinary() + ".jpg");
+                    //System.IO.File.WriteAllBytes(filePath, ms.ToArray());
                     var fileVm = new FileResultViewModel();
                     fileVm.Content = Convert.ToBase64String(ms.ToArray());
                     fileVm.FileName = DateTime.Now.ToFileTimeUtc() + ".jpg";
@@ -72,23 +64,7 @@ namespace QRCode_RSA.Controllers
                 }
             }
         }
-        private static string CreateSalt(string id)
-        {
-            var userBytes = Encoding.ASCII.GetBytes(id);
-            long xored = 0x00;
-
-            foreach (var x in userBytes)
-            {
-                xored = ++xored ^ x;
-            }
-
-            var rand = new Random(Convert.ToInt32(xored));
-            var salt = rand.Next().ToString(CultureInfo.InvariantCulture);
-            salt += rand.Next().ToString(CultureInfo.InvariantCulture);
-            salt += rand.Next().ToString(CultureInfo.InvariantCulture);
-            salt += rand.Next().ToString(CultureInfo.InvariantCulture);
-            return salt.Substring(salt.Length / 5, salt.Length / 2);
-        }
+        
         public class FileResultViewModel
         {
             public string Content { get; set; }
