@@ -1,6 +1,11 @@
-﻿using System;
+﻿using QRCode_RSA.Models;
+using QRCoder;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,7 +13,7 @@ using System.Web;
 
 namespace QRCode_RSA.Content.ultilities
 {
-    public  class Common
+    public class Common
     {
 
         public static string ToHexString(string str)
@@ -60,6 +65,27 @@ namespace QRCode_RSA.Content.ultilities
             salt += rand.Next().ToString(CultureInfo.InvariantCulture);
             salt += rand.Next().ToString(CultureInfo.InvariantCulture);
             return salt.Substring(salt.Length / 5, salt.Length / 2);
+        }
+        public static FileResultViewModel TaoQRCode(string data)
+        {
+            //Tạo QRCode
+            using (MemoryStream ms = new MemoryStream())
+            {
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+                QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
+                using (Bitmap bitMap = qrCode.GetGraphic(20))
+                {
+                    bitMap.Save(ms, ImageFormat.Jpeg);
+                    //string filePath = Path.Combine(Server.MapPath("/images"), DateTime.UtcNow.ToBinary() + ".jpg");
+                    //System.IO.File.WriteAllBytes(filePath, ms.ToArray());
+                    var fileVm = new FileResultViewModel();
+                    fileVm.Content = Convert.ToBase64String(ms.ToArray());
+                    fileVm.FileName = DateTime.Now.ToFileTimeUtc() + ".jpg";
+                    return fileVm;
+                }
+            }
         }
     }
 }

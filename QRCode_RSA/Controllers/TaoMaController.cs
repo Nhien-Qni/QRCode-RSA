@@ -41,36 +41,9 @@ namespace QRCode_RSA.Controllers
             var duLieuMaHoa = rsa.Encrypt_string(rsa.PublicOnlyKeyXML, duLieuBam);
             string TaoQR = "Họ tên: " + data + ", " + duLieuMaHoa;
             //string TaoQR = Common.FromHexString(duLieuMaHoa);
-            return Json(TaoQRCode(TaoQR), JsonRequestBehavior.AllowGet);
+            return Json(Common.TaoQRCode(TaoQR), JsonRequestBehavior.AllowGet);
         }
        
-        public FileResultViewModel TaoQRCode(string data)
-        {
-            //Tạo QRCode
-            using (MemoryStream ms = new MemoryStream())
-            {
-                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
-                QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
-                using (Bitmap bitMap = qrCode.GetGraphic(20))
-                {
-                    bitMap.Save(ms, ImageFormat.Jpeg);
-                    //string filePath = Path.Combine(Server.MapPath("/images"), DateTime.UtcNow.ToBinary() + ".jpg");
-                    //System.IO.File.WriteAllBytes(filePath, ms.ToArray());
-                    var fileVm = new FileResultViewModel();
-                    fileVm.Content = Convert.ToBase64String(ms.ToArray());
-                    fileVm.FileName = DateTime.Now.ToFileTimeUtc() + ".jpg";
-                    return fileVm;
-                }
-            }
-        }
-        
-        public class FileResultViewModel
-        {
-            public string Content { get; set; }
-            public string FileName { get; set; }
-        }
-
+         
     }
 }
