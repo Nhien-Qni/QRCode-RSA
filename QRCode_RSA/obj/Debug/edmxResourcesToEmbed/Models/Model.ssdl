@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="QRCodeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="RSA">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Key" Type="varchar" MaxLength="500" />
+    <Property Name="PublicKey" Type="varchar" MaxLength="500" />
+    <Property Name="PrivateKey" Type="varchar" MaxLength="500" />
+  </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="Id" />
@@ -8,9 +17,10 @@
     <Property Name="HoTen" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="QuocGia" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="NoiCuTru" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Avatar" Type="nvarchar" MaxLength="700" />
+    <Property Name="Avatar" Type="nvarchar(max)" />
   </EntityType>
   <EntityContainer Name="QRCodeModelStoreContainer">
+    <EntitySet Name="RSA" EntityType="Self.RSA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

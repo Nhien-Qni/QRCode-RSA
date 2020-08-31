@@ -8,9 +8,19 @@
     <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="QuocGia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="NoiCuTru" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Avatar" Type="String" MaxLength="700" FixedLength="false" Unicode="true" />
+    <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityContainer Name="QRCodeEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="RSAs" EntityType="QRCodeModel.RSA" />
   </EntityContainer>
+  <EntityType Name="RSA">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Key" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="PublicKey" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="PrivateKey" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

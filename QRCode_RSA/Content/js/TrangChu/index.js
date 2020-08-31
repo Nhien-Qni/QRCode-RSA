@@ -12,11 +12,11 @@ function QuetMa() {
         data: { "key": $("#txt_barcode").val() },
         success: function (data) {
             if (data != null && data.isError == null) {
-                //toastr.success(data.Message);
-                $("#HinhAnh").html(data.Avatar).attr({ "src": data.Avatar == null ? "/images/person.png" : data.Avatar });
-                $("#HoTen").html(data.HoTen)
-                $("#NoiCuTru").html(data.NoiCuTru)
-                $("#QuocGia").html(data.QuocGia)
+                toastr.success(data.isSuccess);
+                //$("#HinhAnh").html(data.Avatar).attr({ "src": data.Avatar == null ? "/images/person.png" : data.Avatar });
+                //$("#HoTen").html(data.HoTen)
+                //$("#NoiCuTru").html(data.NoiCuTru)
+                //$("#QuocGia").html(data.QuocGia)
                 $('#txt_barcode').val("");
                 focustb();
             }

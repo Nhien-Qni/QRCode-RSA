@@ -137,6 +137,8 @@
     <Content Include="Content\css\dashboard.css" />
     <Content Include="Content\css\media-screen.css" />
     <Content Include="Content\js\TrangChu\index.js" />
+    <Content Include="Content\js\translate.js" />
+    <Content Include="Content\js\ultilities.js" />
     <Content Include="Global.asax" />
     <Content Include="images\banner.jpg" />
     <Content Include="images\banner.png" />
@@ -159,6 +161,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Content\ultilities\Common.cs" />
     <Compile Include="Controllers\QRCodeController.cs" />
+    <Compile Include="Controllers\RSAController.cs" />
     <Compile Include="Controllers\TaoMaController.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
     <Compile Include="Global.asax.cs">
@@ -180,6 +183,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RSA.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -207,6 +213,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <Content Include="Views\QRCode\Index.cshtml" />
+    <Content Include="Views\RSA\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -27,7 +27,7 @@ namespace QRCode_RSA.Controllers
             byte[] duLieuBam = Common.HashString(data);
             //var t = Convert.ToBase64String(duLieuBam);
             var duLieuMaHoa = rsa.Encrypt_string(rsa.PublicOnlyKeyXML, duLieuBam);
-            string TaoQR = "Họ tên: " + data + ", " + duLieuMaHoa;
+            string TaoQR = data + ", " + duLieuMaHoa;
             //string TaoQR = Common.FromHexString(duLieuMaHoa);
             return Json(Common.TaoQRCode(TaoQR), JsonRequestBehavior.AllowGet);
         }

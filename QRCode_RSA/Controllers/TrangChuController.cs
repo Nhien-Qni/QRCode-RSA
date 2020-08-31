@@ -20,22 +20,25 @@ namespace QRCode_RSA.Controllers
         [HttpPost]
         public JsonResult QuetMa(string key)
         {
-            rsa.AssignNewKey("PassW0rd@123");
-            //string dulieuLayDuoc = Common.FromHexString(key);
-            var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, key);
-            if (!string.IsNullOrEmpty(bangroD))
+            try
             {
-                foreach (var item in db.Users.ToList())
+                rsa.AssignNewKey("PassW0rd@123");
+                var splitkey = key.Split(',');
+                //string dulieuLayDuoc = Common.FromHexString(key);
+                var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, splitkey[1]);
+                if (!string.IsNullOrEmpty(bangroD))
                 {
-                    if (bangroD.Equals(System.Text.Encoding.Unicode.GetString(Common.HashString(item.HoTen))))
+                    if (bangroD.Equals(System.Text.Encoding.Unicode.GetString(Common.HashString(splitkey[0]))))
                     {
-                        return Json(item, JsonRequestBehavior.AllowGet);
+                        return Json(new { isSuccess = "Qrcode chính xác" }, JsonRequestBehavior.AllowGet);
                     }
                 }
+                return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
             }
-           
-            //var bangroDbase64 = Convert.ToBase64String(bangroD);
-            return Json(new { isError = "QRcode không chính xác"},JsonRequestBehavior.AllowGet);
+           catch
+            {
+                return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
+            }     
         }
     }
 }

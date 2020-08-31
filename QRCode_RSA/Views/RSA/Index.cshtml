@@ -1,0 +1,49 @@
+﻿@model QRCode_RSA.Models.RSA;
+@{
+    ViewBag.Title = "RSA";
+    Layout = "~/Views/Shared/_LoginLayoutPage.cshtml";
+}
+
+<h2> Tạo khóa RSA</h2>
+<div class="row" style="margin: 0px">
+    <input type="text" placeholder="Nhập mã khóa" value="@(Model != null ? Model.Key : "")" required class="form-control col-md-3" id="key" style="margin-right: 20px"/>
+    <button class="btn btn-success" onclick="TaoKey();">Tạo mã</button>
+</div>
+
+<br />
+<label class="form-group">Public key</label>
+<textarea placeholder="Public key được tạo từ mã khóa" class="form-control" rows="10" id="publickey" disabled>@(Model != null ? Model.PublicKey : "")</textarea>
+<br />
+<label class="form-group">Private key</label>
+<textarea placeholder="Private key được tạo từ mã khóa" class="form-control" rows="10" id="privatekey" disabled>@(Model != null ? Model.PrivateKey : "")</textarea>
+
+
+
+<script>
+    function TaoKey() {
+        var data = $("#key").val();
+        var fd = new FormData();
+        fd.append("data", data);
+        $.ajax({
+            url: "/RSA/TaoKey",
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: "POST",
+            success: function (data) {
+                if (data != null && data.isError == null) {
+                    $("#publickey").html(data.PublicOnlyKeyXML);
+                    $("#privatekey").html(data.PrivateKeyXML);
+                }
+                else
+                {
+                    toastr.error(data.isError);
+                }
+            },
+            error: function () {
+                toastr.error(translate("loi_xay_ra"));
+                window.location.reload();
+            }
+        });
+    }
+</script>
