@@ -32,6 +32,9 @@
                                                 Nơi cư trú
                                             </td>
                                             <td class="title">
+                                                Avatar
+                                            </td>
+                                            <td class="title">
                                                 QR Image
                                             </td>
                                         </tr>
@@ -39,13 +42,20 @@
                                     <tbody>
                                         @if (Model != null && Model.Count > 0)
                                         {
-                                            for (int i = 1; i<= Model.Count; i++)
+                                            for (int i = 1; i <= Model.Count; i++)
                                             {
                                                 <tr>
                                                     <td> @i</td>
-                                                    <td> @Model[i-1].HoTen</td>
-                                                    <td> @Model[i-1].QuocGia</td>
-                                                    <td> @Model[i-1].NoiCuTru</td>
+                                                    <td> @Model[i - 1].HoTen</td>
+                                                    <td> @Model[i - 1].QuocGia</td>
+                                                    <td> @Model[i - 1].NoiCuTru</td>
+                                                    <td> @{
+                                                        if (!string.IsNullOrEmpty(Model[i - 1].Avatar))
+                                                        {
+                                                            String.Format("data:image/gif;base64,{0}", Model[i - 1].Avatar);
+                                                        }
+                                                    }
+                                                    </td>
                                                     <td> <button class="form-control btn-success" style="width:auto" onclick="TaoQR('@Model[i-1].HoTen')"><i class="fa fa-picture-o"></i> Tạo</button></td>
                                                 </tr>
                                             }

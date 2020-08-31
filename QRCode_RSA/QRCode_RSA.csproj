@@ -138,6 +138,8 @@
     <Content Include="Content\css\media-screen.css" />
     <Content Include="Content\js\TrangChu\index.js" />
     <Content Include="Global.asax" />
+    <Content Include="images\banner.jpg" />
+    <Content Include="images\banner.png" />
     <Content Include="images\banner1.jpg" />
     <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

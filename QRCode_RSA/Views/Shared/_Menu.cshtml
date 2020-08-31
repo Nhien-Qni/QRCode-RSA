@@ -1,46 +1,19 @@
 ﻿
 
 <nav class="navbar navbar-dark bg-primary navbar-expand-md" style="        margin-bottom: 20px">
-    <a class="navbar-brand" href="#" style='cursor: default;'>QL Đảng viên</a>
+    <a class="navbar-brand" href="#" style='cursor: default;'>QR Code</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navb">
         <ul class="navbar-nav mr-auto">
             @{
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tạo RSA Key</a>
+                </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/DangVien">Đảng viên</a>
+                        <a class="nav-link" href="/TaoMa">Tạo QR Image</a>
                     </li>
-
-
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/DaiBieu">Đại biểu</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/DaiHoiTaiLieu">Tài liệu</a>
-                    </li>
-
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/DanhGiaDV">Đánh giá</a>
-                    </li>
-
-                @*var chuyenDenDi = MenuHelper.HienThiChuyenDenDi();
-                    if (chuyenDenDi.IsShow)
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                                Chuyển Đến/Đi
-                            </a>
-                            <div class="dropdown-menu">
-                                @{
-                                    foreach (var item in chuyenDenDi.MenuItems)
-                                    {
-                                        <a class='dropdown-item' href='/@Html.Raw(item.Ten)'> @Html.Raw(item.MoTa)</a>
-                                    }
-                                }
-                            </div>
-                        </li>
-                    }*@
             }
 
         </ul>
@@ -65,7 +38,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('li.active').removeClass('active');
-        if (location.pathname === "/DangVien") {
+        if (location.pathname === "/TaoMa") {
             $('a[href="/"]').closest('li').addClass('active');
         } else {
             $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
