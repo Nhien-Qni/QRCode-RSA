@@ -17,12 +17,19 @@ namespace QRCode_RSA.Controllers
 {
     public class TaoMaController : Controller
     {
+        QRCodeEntities db;
         public Tool.TaoMa rsa;
         public TaoMaController()
         {
+            db = new QRCodeEntities();
             rsa = new Tool.TaoMa();
+            if (db.RSAs.FirstOrDefault() != null)
+            {
+                rsa.PrivateKeyXML = db.RSAs.FirstOrDefault().PrivateKey;
+                rsa.PublicOnlyKeyXML = db.RSAs.FirstOrDefault().PublicKey;
+            }
+
         }
-        QRCodeEntities db = new QRCodeEntities();
         
         // GET: TaoMa
         public ActionResult Index()
@@ -34,12 +41,19 @@ namespace QRCode_RSA.Controllers
         [HttpPost]
         public ActionResult TaoQR(string data)
         {
+            if (rsa.PublicOnlyKeyXML == null)
+            {
+                return Json(new { isError = "Chưa tạo public key" }, JsonRequestBehavior.AllowGet);
+            }
             // Tạo PublicKey, PrivateKey
-            rsa.AssignNewKey("PassW0rd@123");
             byte[] duLieuBam = Common.HashString(data);
             //var t = Convert.ToBase64String(duLieuBam);
             var duLieuMaHoa = rsa.Encrypt_string(rsa.PublicOnlyKeyXML, duLieuBam);
-            string TaoQR = data + ", " + duLieuMaHoa;
+            if (duLieuMaHoa.Contains("Mã hóa thất bại"))
+            {
+                return Json(new { isError = duLieuMaHoa }, JsonRequestBehavior.AllowGet);
+            }
+            string TaoQR = data + ",$$$$$ " + duLieuMaHoa;
             //string TaoQR = Common.FromHexString(duLieuMaHoa);
             return Json(Common.TaoQRCode(TaoQR), JsonRequestBehavior.AllowGet);
         }

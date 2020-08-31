@@ -9,11 +9,14 @@
         <ul class="navbar-nav mr-auto">
             @{
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Tạo RSA Key</a>
+                    <a class="nav-link" href="/RSA"><b>Tạo RSA Key</b></a>
                 </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/TaoMa">Tạo QR Image</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/TaoMa"><b>Tạo QR Image</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/QRCode"><b>Tạo QR Image</b></a>
+                </li>
             }
 
         </ul>
@@ -38,7 +41,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('li.active').removeClass('active');
-        if (location.pathname === "/TaoMa") {
+        if (location.pathname === "") {
             $('a[href="/"]').closest('li').addClass('active');
         } else {
             $('a[href="' + location.pathname + '"]').closest('li').addClass('active');

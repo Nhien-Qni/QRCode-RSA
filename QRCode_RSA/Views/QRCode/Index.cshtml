@@ -22,7 +22,10 @@
             contentType: false,
             type: "POST",
             success: function (data) {
-                base64toImage(data.Content, data.FileName);
+                if (data != null && data.isError == null)
+                    base64toImage(data.Content, data.FileName);
+                else
+                    toastr.error(data.isError);
             },
             error: function () {
                 toastr.error(translate("loi_xay_ra"));

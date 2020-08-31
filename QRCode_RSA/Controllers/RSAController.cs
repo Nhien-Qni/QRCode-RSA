@@ -13,13 +13,13 @@ namespace QRCode_RSA.Controllers
         QRCodeEntities db;
         public RSAController()
         {
-            rsa = new Tool.TaoMa();
             db = new QRCodeEntities();
+            rsa = new Tool.TaoMa();
         }
         // GET: RSA
         public ActionResult Index()
         {
-            if (db.RSAs.Count() == 0)
+            if (db.RSAs.FirstOrDefault() != null)
                 return View(db.RSAs.FirstOrDefault());
             return View();
         }
@@ -38,12 +38,12 @@ namespace QRCode_RSA.Controllers
                     duLieu.Key = data;
                     duLieu.PrivateKey = rsa.PrivateKeyXML;
                     duLieu.PublicKey = rsa.PublicOnlyKeyXML;
-                    db.SaveChanges();
+                   
                 }
-               
+                db.SaveChanges();
                 return Json(rsa, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch (Exception ex)
             {
                 return Json(new { isError = "Có lỗi khi tạo khóa."}, JsonRequestBehavior.AllowGet);
             }
