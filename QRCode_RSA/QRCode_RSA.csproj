@@ -147,6 +147,8 @@
     <Content Include="images\banner.jpg" />
     <Content Include="images\banner.png" />
     <Content Include="images\banner1.jpg" />
+    <Content Include="images\loading.gif" />
+    <Content Include="images\no-image.jpg" />
     <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -164,6 +166,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Content\ultilities\Common.cs" />
+    <Compile Include="Content\ultilities\ValidateError.cs" />
     <Compile Include="Controllers\QRCodeController.cs" />
     <Compile Include="Controllers\RSAController.cs" />
     <Compile Include="Controllers\TaoMaController.cs" />
@@ -228,6 +231,7 @@
   <ItemGroup>
     <Folder Include="Content\fonts\font-awesome-4.7.0\" />
     <Folder Include="Content\vendor\bootstrap-4.3.1\" />
+    <Folder Include="Content\vendor\bootstrap-datepicker\" />
     <Folder Include="Content\vendor\bootstrap-table-master\" />
     <Folder Include="Content\vendor\jquery-toast-plugin\" />
     <Folder Include="Content\vendor\jquery-ui-1.12.1\" />

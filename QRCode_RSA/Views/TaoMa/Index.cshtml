@@ -3,9 +3,10 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LoginLayoutPage.cshtml";
 }
-<div class="col-sm-6 col-xs-12 p-t-10 p-b-10 btn-add-mb">
-    <button class="btn btn-success" id="btn-open-modal" onclick="showpopThem()"><i class="fa fa-plus"></i> Thêm mới</button>
+<div class="col-sm-12 col-xs-12 p-t-10 p-b-10 btn-add-mb">
+    <button style="float:right" class="btn btn-success" id="btn-open-modal" onclick="showpopThem()"><i class="fa fa-plus"></i> Thêm mới</button>
 </div>
+
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -43,6 +44,8 @@
                                             <td class="title">
                                                 QR Image
                                             </td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -59,11 +62,13 @@
                                                     <td> @{
                                                         if (!string.IsNullOrEmpty(Model[i - 1].Avatar))
                                                         {
-                                                            String.Format("data:image/gif;base64,{0}", Model[i - 1].Avatar);
+                                                            <img src="@Model[i - 1].Avatar" width="100%" height="auto" />
                                                         }
                                                     }
                                                     </td>
-                                                    <td> <button class="form-control btn-success" style="width:auto" onclick="TaoQR('@Model[i-1].Id')"><i class="fa fa-picture-o"></i> Tạo</button></td>
+                                                    <td> <button class="btn btn-success" onclick="TaoQR('@Model[i-1].Id')"><i class="fa fa-picture-o"></i> Tạo</button></td>
+                                                    <td><button id='btn-update-item' onclick="showpopSua(@Model[i - 1].Id)" class='btn btn-primary'><i class='fa fa-pencil'></i> Sửa</button></td>
+                                                    <td><button id='btn-delete-item' onclick="Xoa(@Model[i - 1].Id)" class='btn btn-danger'><i class='fa fa-times'></i> Xóa</button></td>
                                                 </tr>
                                             }
                                         }
@@ -80,7 +85,7 @@
     </div>
 </section>
 <div class="modal fade in" id="UserModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width:60%">
         <div class="modal-content col-md-12">
             <div class="modal-header">
                 <h4 id="titleModel">Thêm mới</h4>
@@ -90,60 +95,79 @@
                 <form enctype="multipart/form-data" method="post" id="formpost">
                     <input type="hidden" id="Id" name="Id" value="Id" />
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                   Họ Tên: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
-                                </label>
-
-                                <input type="text" class="form-control" id="HoTen" value=""
-                                       placeholder="Nhập họ và tên">
-                                <p id="ErrorHoTen" class="text-danger m-b-0"></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    Ngày Sinh: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
-                                </label>
-                                <div class="input-group">
-                                    <input type="text" id="NgaySinh" class="form-control" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" @*id="@Model.Id-Calendar"*@><i class="fa fa-calendar"></i></span>
-                                    </div>
+                        <div class="col-sm-3 col-xs-12">
+                            <div class="row">
+                                <div class="col-sm-12 imgUp">
+                                    <img id="previewAvatar" src="/images/no-image.jpg" alt="Avatar">
+                                    <label class="btn btn-primary">
+                                        Chọn ảnh
+                                        <input type="file" id="avatarId" value="Chọn ảnh" class="uploadFile img">
+                                    </label>
                                 </div>
-                                <p id="ErrorNgaySinh" class="text-danger m-b-0"></p>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    Quốc Tịch: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
-                                </label>
+                         <div class="col-sm-9 col-xs-12">
+                             <div class="row">
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label>
+                                             Họ Tên: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                         </label>
 
-                                <input type="text" class="form-control" id="QuocTich" value=""
-                                       placeholder="Nhập quốc tịch">
-                                <p id="ErrorQuocTich" class="text-danger m-b-0"></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    Nơi Cư Trú: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
-                                </label>
+                                         <input type="text" class="form-control" id="HoTen" value="" required
+                                                placeholder="Nhập họ và tên">
+                                         <p id="ErrorHoTen" class="text-danger m-b-0"></p>
+                                     </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label>
+                                             Ngày Sinh: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                         </label>
+                                         <div class="input-group">
+                                             <input type="text" id="NgaySinh" class="form-control" required/>
+                                             <div class="input-group-append">
+                                                 <span class="input-group-text" @*id="@Model.Id-Calendar"*@><i class="fa fa-calendar"></i></span>
+                                             </div>
+                                         </div>
+                                         <p id="ErrorNgaySinh" class="text-danger m-b-0"></p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label>
+                                             Quốc Tịch: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                         </label>
 
-                                <input type="text" class="form-control" id="NoiCuTru" value=""
-                                       placeholder="Nhập nơi cư trú">
-                                <p id="ErrorNoiCuTru" class="text-danger m-b-0"></p>
-                            </div>
-                        </div>
+                                         <input type="text" class="form-control" id="QuocGia" value="" required
+                                                placeholder="Nhập quốc tịch">
+                                         <p id="ErrorQuocGia" class="text-danger m-b-0"></p>
+                                     </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label>
+                                             Nơi Cư Trú: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                         </label>
+
+                                         <input type="text" class="form-control" id="NoiCuTru" value="" required
+                                                placeholder="Nhập nơi cư trú">
+                                         <p id="ErrorNoiCuTru" class="text-danger m-b-0"></p>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                       
+                       
                     </div>
                 </form>
             </div>
             <div style="clear:both;height:10px;"></div>
             <div class="modal-footer">
                 <button id="btn-loading" type="button" class="btn btn-default invisible" data-dismiss="modal">
-                    <img src="~/Content/img/loading.gif" height="25" />
+                    <img src="~/images/loading.gif" height="25" />
                 </button>
                 <button class="btn btn-light" data-dismiss="modal"> <i class="fa fa-times"></i> Đóng</button>
                 <button type="button" onclick="Post()" class="btn btn-success">
@@ -154,6 +178,53 @@
     </div>
 </div>
 <script>
+    function showpopThem() {
+        $("#UserModal").modal()
+        $("#formpost")[0].reset();
+        $("#btn-add").html("<i class='fa fa-plus'></i> Thêm mới");
+        $("#titleModel").html(translate("Thêm mới"));
+        $("#Id").val(0);
+        $("#btn-loading").addClass("invisible");
+        clearError();
+    }
+    function showpopSua(id) {
+        $.ajax({
+            url: '/TaoMa/GetItem',
+            type: "POST",
+            dataType: "json",
+            data: {"Id": id},
+            success: function (data) {
+                if (data && data.Id > 0) {
+                    $("#Id").val(data.Id)
+                    $("#HoTen").val(data.HoTen);
+                    $("#NgaySinh").val(data.NgaySinhString);
+                    $('#previewAvatar').attr('src', data.Avatar != null ? data.Avatar : "/images/no-image.jpg");
+                    $("#NoiCuTru").val(data.NoiCuTru);
+                    $("#QuocGia").val(data.QuocGia);
+                    $("#UserModal").modal()
+                    $("#btn-add").html("<i class='fa fa-plus'></i> Cập nhật");
+                    $("#titleModel").html(translate("Cập nhật"));
+                    $("#btn-loading").addClass("invisible");
+                }
+                else {
+                    toastr.error(translate("loi_xay_ra"));
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+                openButtonFooter();
+                toastr.error(translate("loi_xay_ra"));
+            }
+        })
+       
+        clearError();
+    }
+    function clearError() {
+        $("#ErrorHoTen").hide();
+        $("#ErrorNgaySinh").hide();
+        $("#ErrorNoiCuTru").hide();
+        $("#ErrorQuocGia").hide();
+    }
     function TaoQR(id)
     {
         var fd = new FormData();
@@ -176,6 +247,85 @@
             }
         });
     }
+    function Post() {
+        openButtonFooter();
+        clearError();
+        var split = $("#NgaySinh").val().split("/");
+        var avatar = $('#avatarId').prop('files').length > 0 ? $('#avatarId').prop('files')[0] : "";
+        NgaySinh = split[1] + "/" + split[0] + "/" + split[2];
+        var fd = new FormData();
+        fd.append("Id",  $("#Id").val());
+        fd.append("HoTen", $("#HoTen").val());
+        fd.append("QuocGia", $("#QuocGia").val());
+        fd.append("NgaySinh", NgaySinh);
+        fd.append("NoiCuTru", $("#NoiCuTru").val());
+        fd.append("AvatarFile", avatar);
+       
+        $.ajax({
+            url: '/TaoMa/ThemSua',
+            type: "POST",
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function (data) {
+                if (data && data.Id > 0) {
+                    //$('#bs-table').bootstrapTable('refresh');
+                    toastr.success(translate("cap_nhat_thanh_cong"));
+                    $("#UserModal").modal("hide");
+                    waitsecond();
+                    $("#formpost")[0].reset();
+                }
+                else if (data && data.Id == 0) {
+                    toastr.success(translate("them_thanh_cong")); 
+                    $("#UserModal").modal("hide");
+                    waitsecond();
+                    $("#formpost")[0].reset();
+                }
+                else if (data && data.Errors.length > 0) {
+                    data.Errors.map((item) => {
+                        var idError = "#" + item.Name;
+                        $(idError).show();
+                        $(idError).text(item.Description);
+                        openButtonFooter();
+                        return "";
+                    })
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+                openButtonFooter();
+                toastr.error(translate("loi_xay_ra"));
+            }
+        })
+    }
+    function Xoa(id)
+    {
+        if (!confirm('Chắc chắn muốn xóa?')) {
+            return;
+        } 
+        $.ajax({
+            url: '/TaoMa/XoaItem',
+            type: "POST",
+            dataType: "json",
+            data: { "Id": id },
+            success: function (data) {
+                if (data) {
+                    toastr.success(translate("xoa_thanh_cong"));
+                    waitsecond();
+                }
+                else {
+                    toastr.error(translate("loi_xay_ra"));
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+                openButtonFooter();
+                toastr.error(translate("loi_xay_ra"));
+            }
+        })
+
+    }
     $(document).ready(function () {
         $("#NgaySinh").datepicker({
             autoclose: true,
@@ -183,5 +333,30 @@
             format: 'dd/mm/yyyy'
         });
     });
+    //Avatar
+    function readURLImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#previewAvatar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#avatarId").change(function () {
+        readURLImage(this);
+    });
+    function openButtonFooter() {
+        $(".modal-footer button").attr("disabled", false);
+        $("#btn-loading").addClass("invisible");
+    }
+    function waitsecond()
+    {
+        setTimeout(function () {
+            location.reload();
+        }, 1000); 
+    }
 </script>
 
