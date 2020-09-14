@@ -3,6 +3,7 @@ using QRCode_RSA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -34,6 +35,11 @@ namespace QRCode_RSA.Controllers
             if (rsa.PublicOnlyKeyXML == null)
             {
                 return Json(new { isError = "Chưa tạo public key" }, JsonRequestBehavior.AllowGet);
+            }
+            var match = @"[\n]+";
+            if (data.Contains("\n"))
+            {
+                data = Regex.Replace(data,match,"");
             }
             // Tạo PublicKey, PrivateKey
             byte[] duLieuBam = Common.HashString(data);

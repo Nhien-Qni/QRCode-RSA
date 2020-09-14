@@ -28,7 +28,7 @@ namespace QRCode_RSA.Controllers
             try
             {
                 rsa.AssignNewKey(data);
-                if (db.RSAs.Count() == 0)
+                if (db.RSAs.FirstOrDefault() == null)
                 {
                     db.RSAs.Add(new RSA() { Key = data, PrivateKey = rsa.PrivateKeyXML, PublicKey = rsa.PublicOnlyKeyXML });
                 }

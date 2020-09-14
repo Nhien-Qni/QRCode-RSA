@@ -19,5 +19,7 @@ namespace QRCode_RSA.Models
         public string QuocGia { get; set; }
         public string NoiCuTru { get; set; }
         public string Avatar { get; set; }
+        public Nullable<System.DateTime> NgaySinh { get; set; }
+        public string NgaySinhString => NgaySinh != null ? NgaySinh.GetValueOrDefault().ToString("dd/MM/yyyy") : "";
     }
 }

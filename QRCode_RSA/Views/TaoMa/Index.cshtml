@@ -3,6 +3,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LoginLayoutPage.cshtml";
 }
+<div class="col-sm-6 col-xs-12 p-t-10 p-b-10 btn-add-mb">
+    <button class="btn btn-success" id="btn-open-modal" onclick="showpopThem()"><i class="fa fa-plus"></i> Thêm mới</button>
+</div>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -26,6 +29,9 @@
                                                 Họ tên
                                             </td>
                                             <td class="title">
+                                                Ngày sinh
+                                            </td>
+                                            <td class="title">
                                                 Quốc tịch
                                             </td>
                                             <td class="title">
@@ -47,6 +53,7 @@
                                                 <tr>
                                                     <td> @i</td>
                                                     <td> @Model[i - 1].HoTen</td>
+                                                    <td> @(Model[i - 1].NgaySinh != null ? ((DateTime)Model[i - 1].NgaySinh).ToString("dd/MM/yyyy") : "")</td>
                                                     <td> @Model[i - 1].QuocGia</td>
                                                     <td> @Model[i - 1].NoiCuTru</td>
                                                     <td> @{
@@ -56,7 +63,7 @@
                                                         }
                                                     }
                                                     </td>
-                                                    <td> <button class="form-control btn-success" style="width:auto" onclick="TaoQR('@Model[i-1].HoTen')"><i class="fa fa-picture-o"></i> Tạo</button></td>
+                                                    <td> <button class="form-control btn-success" style="width:auto" onclick="TaoQR('@Model[i-1].Id')"><i class="fa fa-picture-o"></i> Tạo</button></td>
                                                 </tr>
                                             }
                                         }
@@ -72,11 +79,85 @@
         </div>
     </div>
 </section>
+<div class="modal fade in" id="UserModal">
+    <div class="modal-dialog">
+        <div class="modal-content col-md-12">
+            <div class="modal-header">
+                <h4 id="titleModel">Thêm mới</h4>
+                <button class="close " data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form enctype="multipart/form-data" method="post" id="formpost">
+                    <input type="hidden" id="Id" name="Id" value="Id" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                   Họ Tên: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                </label>
+
+                                <input type="text" class="form-control" id="HoTen" value=""
+                                       placeholder="Nhập họ và tên">
+                                <p id="ErrorHoTen" class="text-danger m-b-0"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Ngày Sinh: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" id="NgaySinh" class="form-control" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" @*id="@Model.Id-Calendar"*@><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <p id="ErrorNgaySinh" class="text-danger m-b-0"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Quốc Tịch: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                </label>
+
+                                <input type="text" class="form-control" id="QuocTich" value=""
+                                       placeholder="Nhập quốc tịch">
+                                <p id="ErrorQuocTich" class="text-danger m-b-0"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Nơi Cư Trú: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                </label>
+
+                                <input type="text" class="form-control" id="NoiCuTru" value=""
+                                       placeholder="Nhập nơi cư trú">
+                                <p id="ErrorNoiCuTru" class="text-danger m-b-0"></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="clear:both;height:10px;"></div>
+            <div class="modal-footer">
+                <button id="btn-loading" type="button" class="btn btn-default invisible" data-dismiss="modal">
+                    <img src="~/Content/img/loading.gif" height="25" />
+                </button>
+                <button class="btn btn-light" data-dismiss="modal"> <i class="fa fa-times"></i> Đóng</button>
+                <button type="button" onclick="Post()" class="btn btn-success">
+                    <span id="btn-add"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-    function TaoQR(data)
+    function TaoQR(id)
     {
         var fd = new FormData();
-        fd.append("data", data);
+        fd.append("id", id);
         $.ajax({
             url: "/TaoMa/TaoQR",
             data: fd,
@@ -95,5 +176,12 @@
             }
         });
     }
+    $(document).ready(function () {
+        $("#NgaySinh").datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            format: 'dd/mm/yyyy'
+        });
+    });
 </script>
 

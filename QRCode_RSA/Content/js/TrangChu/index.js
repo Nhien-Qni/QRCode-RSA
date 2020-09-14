@@ -13,19 +13,21 @@ function QuetMa() {
         success: function (data) {
             if (data != null && data.isError == null) {
                 toastr.success(data.isSuccess);
-                //$("#HinhAnh").html(data.Avatar).attr({ "src": data.Avatar == null ? "/images/person.png" : data.Avatar });
-                //$("#HoTen").html(data.HoTen)
-                //$("#NoiCuTru").html(data.NoiCuTru)
-                //$("#QuocGia").html(data.QuocGia)
+                $("#HinhAnh").html(data.DuLieu.Avatar).attr({ "src": data.DuLieu.Avatar == null ? "/images/person.png" : data.DuLieu.Avatar });
+                $("#HoTen").html(data.DuLieu.HoTen);
+                $("#NgaySinh").html(data.DuLieu.NgaySinhString);
+                $("#NoiCuTru").html(data.DuLieu.NoiCuTru);
+                $("#QuocGia").html(data.DuLieu.QuocGia);
                 $('#txt_barcode').val("");
                 focustb();
             }
             else {
                 toastr.error(data.isError);
                 $("#HinhAnh").attr({ "src": "/images/person.png" });
-                $("#HoTen").html("")
-                $("#NoiCuTru").html("")
-                $("#QuocGia").html("")
+                $("#NgaySinh").html("");
+                $("#HoTen").html("");
+                $("#NoiCuTru").html("");
+                $("#QuocGia").html("");
                 $('#txt_barcode').val("");
                 focustb();
             }
