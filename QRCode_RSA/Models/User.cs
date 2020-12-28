@@ -11,8 +11,7 @@ namespace QRCode_RSA.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Web;
-
+    
     public partial class User
     {
         public int Id { get; set; }
@@ -21,7 +20,9 @@ namespace QRCode_RSA.Models
         public string NoiCuTru { get; set; }
         public string Avatar { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
-        public string NgaySinhString => NgaySinh != null ? NgaySinh.GetValueOrDefault().ToString("dd/MM/yyyy") : "";
-        public HttpPostedFileBase AvatarFile { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public Nullable<decimal> SoHieu { get; set; }
+        public string SoBangCap { get; set; }
     }
 }

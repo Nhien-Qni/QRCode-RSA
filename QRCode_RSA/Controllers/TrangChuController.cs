@@ -55,7 +55,7 @@ namespace QRCode_RSA.Controllers
                     {
                         return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
                     }
-                    data =check.Id + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(check.HoTen)) + ",$$$$$ " + (check.NgaySinh != null ? check.NgaySinh.ToString() : "") + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(check.NoiCuTru)) + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(check.QuocGia));
+                    data =check.Id + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(check.HoTen)) + ",$$$$$ " + (check.NgaySinh != null ? check.NgaySinh.ToString() : "") + ",$$$$$ " + (check.SoHieu != null ? check.SoHieu.ToString() : "") + ",$$$$$ " + (check.SoBangCap != null ? check.SoBangCap.ToString() : "");
                 }
                 else
                 {

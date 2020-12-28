@@ -1,0 +1,204 @@
+
+/* Iphong 6/7/8*/
+@media only screen and (max-device-width : 768px) {
+    .login-form {
+        padding: 5px 0 30px !important;
+    }
+
+    .content {
+        background: url(/Content/img/background.jpg) !important;
+    }
+}
+
+/* iPads*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .login-form {
+        padding: 50px 0 30px !important;
+    }
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.content {
+    min-height: 100%;
+    margin: 0 auto -110px;
+    padding-bottom: 110px;
+    background: url(/Content/img/background.jpg) 0 0 no-repeat;
+}
+
+.footer {
+    height: 110px;
+}
+
+.height-90 {
+    height: 90px;
+}
+
+#header {
+    background: url('/Content/img/header-min.png') 0 0 no-repeat;
+    background-color: #0066b3;
+}
+
+#title-company {
+    color: #fff;
+    font: bold 24px Verdana !important;
+    letter-spacing: 1px;
+    padding: 25px;
+    text-shadow: 0.3em 0.3em 0.3em #333333 !important;
+    text-align: center;
+}
+
+.title-frm-login {
+    color: #fff;
+    font: bold 23px Verdana !important;
+    letter-spacing: 1px;
+    text-shadow: 0.3em 0.3em 0.3em #333333 !important;
+    text-align: center;
+}
+
+#footer {
+    background-image: url(/Content/img/footer-min.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    height: 90px;
+    color: #fff;
+}
+
+#div-footer {
+    color: #777;
+    font-size: 12px;
+    background-color: #0066b3;
+    padding: 10px 0px;
+    margin-top: 20px;
+}
+
+.form-control {
+    min-height: 41px;
+    background: #fff;
+    box-shadow: none !important;
+}
+
+    .form-control:focus {
+        border-color: #70c5c0;
+    }
+
+.form-control, .btn {
+    border-radius: 2px;
+}
+
+.login-form {
+    padding: 60px 0 30px;
+}
+
+    .login-form form {
+        color: #7a7a7a;
+        border-radius: 2px;
+        margin-bottom: 15px;
+        font-size: 13px;
+        background: #ffffff;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        position: relative;
+    }
+
+    .login-form h2 {
+        font-size: 22px;
+        margin-bottom: 30px;
+    }
+
+    .login-form .avatar {
+        position: absolute;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: -50px;
+        width: 95px;
+        height: 95px;
+        border-radius: 50%;
+        z-index: 9;
+        background: #007bff;
+        padding: 15px;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    }
+
+        .login-form .avatar img {
+            width: 100%;
+        }
+
+    .login-form input[type="checkbox"] {
+        margin-top: 2px;
+    }
+
+    .login-form .btn {
+        font-size: 16px;
+        font-weight: bold;
+       /* background: #007bff;*/
+        border: none;
+        margin-bottom: 20px;
+    }
+
+        .login-form .btn:hover, .login-form .btn:focus {
+            /*background: #0069d9;*/
+            outline: none !important;
+        }
+
+    .login-form a {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+        .login-form a:hover {
+            text-decoration: none;
+        }
+
+    .login-form form a {
+       /* color: #7a7a7a;*/
+        text-decoration: none;
+    }
+
+        .login-form form a:hover {
+            text-decoration: underline;
+        }
+
+.support-img {
+    width: 100%;
+    margin: 10px 0px;
+}
+
+.width-41px {
+    width: 41px;
+}
+
+@media only screen and (max-width: 1024px) {
+}
+
+@media only screen and (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+    #footer {
+        background-image: unset !important;
+    }
+
+    .width-0 {
+        width: 0 !important;
+    }
+
+    .sm-text-center {
+        text-align: center !important;
+    }
+    #div-footer {
+        padding: 10px 10px !important;
+    }
+}
+
+/*Min screnn*/
+@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+
+}
+
+@media (min-width: 576px) {
+}

@@ -19,9 +19,13 @@ namespace QRCode_RSA.Controllers
         // GET: RSA
         public ActionResult Index()
         {
-            if (db.RSAs.FirstOrDefault() != null)
-                return View(db.RSAs.FirstOrDefault());
-            return View();
+            if (Session["User"] != null)
+            {
+                if (db.RSAs.FirstOrDefault() != null)
+                    return View(db.RSAs.FirstOrDefault());
+                return View();
+            }
+            return RedirectToAction("Index", "Login");
         }
         public ActionResult TaoKey(string data)
         {

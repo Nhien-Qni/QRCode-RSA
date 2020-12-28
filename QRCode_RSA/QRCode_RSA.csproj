@@ -167,6 +167,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Content\ultilities\Common.cs" />
     <Compile Include="Content\ultilities\ValidateError.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\QRCodeController.cs" />
     <Compile Include="Controllers\RSAController.cs" />
     <Compile Include="Controllers\TaoMaController.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tool\TaoMa.cs" />
   </ItemGroup>
@@ -221,6 +223,7 @@
     </Content>
     <Content Include="Views\QRCode\Index.cshtml" />
     <Content Include="Views\RSA\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

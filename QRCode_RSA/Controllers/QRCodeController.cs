@@ -27,7 +27,11 @@ namespace QRCode_RSA.Controllers
         // GET: QRCode
         public ActionResult Index()
         {
-            return View();
+            if (Session["User"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Login");
         }
         [HttpPost]
         public ActionResult TaoQR(string data)

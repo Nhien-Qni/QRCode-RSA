@@ -28,15 +28,15 @@ namespace QRCode_RSA.Controllers
                 rsa.PrivateKeyXML = db.RSAs.FirstOrDefault().PrivateKey;
                 rsa.PublicOnlyKeyXML = db.RSAs.FirstOrDefault().PublicKey;
             }
-
         }
-
         // GET: TaoMa
         public ActionResult Index()
         {
-            db.Users.ToList();
-
-            return View(db.Users.ToList());
+            if (Session["User"] != null)
+            {
+                return View(db.Users.ToList());
+            }
+            return RedirectToAction("Index", "Login");
         }
         [HttpPost]
         public ActionResult TaoQR(int id)
@@ -46,7 +46,7 @@ namespace QRCode_RSA.Controllers
                 return Json(new { isError = "Chưa tạo public key" }, JsonRequestBehavior.AllowGet);
             }
             var user = db.Users.FirstOrDefault(n => n.Id == id);
-            var data = user.Id + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(user.HoTen)) + ",$$$$$ " + (user.NgaySinh != null ? user.NgaySinh.ToString() : "") + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(user.NoiCuTru)) + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(user.QuocGia));
+            var data = user.Id + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(user.HoTen)) + ",$$$$$ " + (user.NgaySinh != null ? user.NgaySinh.ToString() : "") + ",$$$$$ " + (user.SoHieu != null ? user.SoHieu.ToString() : "") + ",$$$$$ " + (user.SoBangCap != null ? user.SoBangCap.ToString() : "");
             // Tạo PublicKey, PrivateKey
             byte[] duLieuBam = Common.HashString(data);
             //var t = Convert.ToBase64String(duLieuBam);
@@ -60,7 +60,7 @@ namespace QRCode_RSA.Controllers
             return Json(Common.TaoQRCode(TaoQR), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult ThemSua(User user)
+        public ActionResult ThemSua(UsersViewModel user)
         {
             int id = user.Id;
             var errors = Validate(user);

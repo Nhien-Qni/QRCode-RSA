@@ -1,0 +1,151 @@
+﻿@using QRCode_RSA.Models.HtmlHelpers
+@model QRCode_RSA.Models.UsersViewModel
+<!DOCTYPE html>
+@{
+    Layout = null;
+}
+<html lang="en">
+<head>
+    <title>VNPT Quang Ngai Billing Portal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    @*<link rel="shortcut icon" type="image/png" href="~/Content/img/favicon.ico" />*@
+    <!--===============================================================================================-->
+    <link href="@Url.ContentVersion("~/Content/vendor/bootstrap-4.3.1/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.ContentVersion("~/Content/css/main.css")" rel="stylesheet" />
+    <link href="~/Content/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+</head>
+<body>
+    <div class="content">
+
+        <div id="header" class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 col-xs-12 height-90">&nbsp;</div>
+                <div class="col-sm-6 col-xs-12" id="title-company">
+                    VIỄN THÔNG QUẢNG NGÃI
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-3 col-xs-12">&nbsp;</div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="login-form">
+                        <div style="padding-bottom: 15px;">
+                            <h3 class="text-center title-frm-login">
+                                HỆ THỐNG
+                            </h3>
+                            <h3 class="text-center title-frm-login">
+                                TRA CỨU CƯỚC
+                            </h3>
+                        </div>
+                        <form method="post" action="/Login/Index">
+                            <input type="hidden" class="form-control" name="CurentCode" id="CurentCode">
+                            <h2 class="text-center">Đăng nhập</h2>
+                            @if (ViewBag.ErrorMessage != null)
+                            {
+                                <div style="color:red;text-align:center;font-size:16px">
+                                    <span style="text-align: left;">@Html.Raw(ViewBag.ErrorMessage)</span>
+                                </div>
+                            }
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 41px;"><i class="fa fa-envelope"></i></span>
+                                </div>
+                                <input type="text" class="form-control" name="UserName" value="@((Model!= null && Model.Username != null)  ? Model.Username : "")" placeholder="Tên truy cập" id="UserName">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 41px; padding-left: 14px;"><i class="fa fa-lock"></i></span>
+                                </div>
+                                <input type="password" class="form-control" name="Password" value="@((Model!= null && Model.Password != null)  ? Model.Password : "")" placeholder="Mật khẩu" id="Password">
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="Code" placeholder="Mã xác thực" id="Code">
+                                <span id="mainCaptcha" style="background: #b3c0c7;"></span>
+                            </div>
+                            <div class="form-group">
+                                <button id="btn-DangNhap" type="submit" class="btn btn-primary btn-lg btn-block">Đăng nhập</button>
+                            </div>
+                            <div class="form-group">
+                                <a href="https://vnptpay.vn/bill/" class="btn btn-success btn-block" style="text-decoration: none;">
+                                    Thanh toán cước VNPT trực tuyến
+                                </a>
+                            </div>
+                            <p class="text-center">
+                                <a href="#" style="color: #7a7a7a;">Quên mật khẩu?</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-3 col-xs-12">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+    <footer id="div-footer">
+        <div id="footer">
+            <table style="width: 100%" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td class="width-41px width-0"></td>
+                        <td class="sm-text-center">
+                            <p style="margin-bottom: 5px; padding-top:10px">
+                                <b>Tổng đài hỗ trợ khách hàng:</b> 0255 800126 - <b>Tổng đài bán hàng toàn quốc:</b> 1800 1166
+                            </p>
+                            <p style="margin-bottom: 5px;"><b>Cơ quan chủ quản:</b> Viễn Thông Quảng Ngãi</p>
+                            <p><b>Đơn vị thực hiện:</b> Trung tâm CNTT - Viễn Thông Quảng Ngãi</p>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <!--===============================================================================================-->
+    <script src="@Url.ContentVersion("~/Content/vendor/jquery/jquery-3.2.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.ContentVersion("~/Content/vendor/bootstrap-4.3.1/js/popper.min.js")" type="text/javascript"></script>
+    <script src="@Url.ContentVersion("~/Content/vendor/bootstrap-4.3.1/js/bootstrap.min.js")" type="text/javascript"></script>
+</body>
+</html>
+<script type="text/javascript">
+    var currentCapcha = "";
+    function convertTextToImg(textPreview) {
+        var canvas = document.createElement("canvas");
+        canvas.width = 100;
+        canvas.height = 40;
+        var ctx = canvas.getContext('2d');
+        ctx.font = "25px Arial";
+        ctx.fillStyle = "#dc3545";
+        ctx.fillText(textPreview, 10, 30);
+        var img = document.createElement("img");
+        img.src = canvas.toDataURL();
+        $("#mainCaptcha").empty();
+        $("#mainCaptcha").append(img);
+        $("#CurentCode").val(currentCapcha);
+    }
+
+
+    function Captcha() {
+        //var alpha = new Array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        //    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        //    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+
+        var alpha = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        for (var i = 0; i < 6; i++) {
+            var a = alpha[Math.floor(Math.random() * alpha.length)];
+            var b = alpha[Math.floor(Math.random() * alpha.length)];
+            var c = alpha[Math.floor(Math.random() * alpha.length)];
+            var d = alpha[Math.floor(Math.random() * alpha.length)];
+        }
+
+        currentCapcha = a + ' ' + b + ' ' + c + ' ' + d;
+        convertTextToImg(currentCapcha);
+    }
+
+    $(document).ready(function () {
+        Captcha();
+    });
+</script>
