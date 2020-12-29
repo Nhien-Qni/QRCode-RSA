@@ -10,10 +10,10 @@ namespace QRCode_RSA.Controllers
     public class RSAController : Controller
     {
         public Tool.TaoMa rsa;
-        QRCodeEntities db;
+        QRCodeEntities1 db;
         public RSAController()
         {
-            db = new QRCodeEntities();
+            db = new QRCodeEntities1();
             rsa = new Tool.TaoMa();
         }
         // GET: RSA

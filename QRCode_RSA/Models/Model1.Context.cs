@@ -13,10 +13,10 @@ namespace QRCode_RSA.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class QRCodeEntities : DbContext
+    public partial class QRCodeEntities1 : DbContext
     {
-        public QRCodeEntities()
-            : base("name=QRCodeEntities")
+        public QRCodeEntities1()
+            : base("name=QRCodeEntities1")
         {
         }
     
@@ -25,7 +25,7 @@ namespace QRCode_RSA.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<RSA> RSAs { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

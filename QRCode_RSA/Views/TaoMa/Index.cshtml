@@ -33,10 +33,10 @@
                                                 Ngày sinh
                                             </td>
                                             <td class="title">
-                                                Quốc tịch
+                                                Số hiệu
                                             </td>
                                             <td class="title">
-                                                Nơi cư trú
+                                                Số vào sổ
                                             </td>
                                             <td class="title">
                                                 Avatar
@@ -57,8 +57,8 @@
                                                     <td> @i</td>
                                                     <td> @Model[i - 1].HoTen</td>
                                                     <td> @(Model[i - 1].NgaySinh != null ? ((DateTime)Model[i - 1].NgaySinh).ToString("dd/MM/yyyy") : "")</td>
-                                                    <td> @Model[i - 1].QuocGia</td>
-                                                    <td> @Model[i - 1].NoiCuTru</td>
+                                                    <td> @Model[i - 1].SoHieu</td>
+                                                    <td> @Model[i - 1].SoBangCap</td>
                                                     <td> @{
                                                         if (!string.IsNullOrEmpty(Model[i - 1].Avatar))
                                                         {
@@ -138,23 +138,23 @@
                                  <div class="col-md-6">
                                      <div class="form-group">
                                          <label>
-                                             Quốc Tịch: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                             Số hiệu: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
                                          </label>
 
-                                         <input type="text" class="form-control" id="QuocGia" value="" required
-                                                placeholder="Nhập quốc tịch">
-                                         <p id="ErrorQuocGia" class="text-danger m-b-0"></p>
+                                         <input type="text" class="form-control" id="SoHieu" value="" required
+                                                placeholder="Nhập số hiệu">
+                                         <p id="ErrorSoHieu" class="text-danger m-b-0"></p>
                                      </div>
                                  </div>
                                  <div class="col-md-6">
                                      <div class="form-group">
                                          <label>
-                                             Nơi Cư Trú: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                             Số vào sổ: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
                                          </label>
 
-                                         <input type="text" class="form-control" id="NoiCuTru" value="" required
-                                                placeholder="Nhập nơi cư trú">
-                                         <p id="ErrorNoiCuTru" class="text-danger m-b-0"></p>
+                                         <input type="text" class="form-control" id="SoBangCap" value="" required
+                                                placeholder="Nhập số vào sổ">
+                                         <p id="ErrorSoBangCap" class="text-danger m-b-0"></p>
                                      </div>
                                  </div>
                              </div>
@@ -199,8 +199,8 @@
                     $("#HoTen").val(data.HoTen);
                     $("#NgaySinh").val(data.NgaySinhString);
                     $('#previewAvatar').attr('src', data.Avatar != null ? data.Avatar : "/images/no-image.jpg");
-                    $("#NoiCuTru").val(data.NoiCuTru);
-                    $("#QuocGia").val(data.QuocGia);
+                    $("#SoBangCap").val(data.SoBangCap);
+                    $("#SoHieu").val(data.SoHieu);
                     $("#UserModal").modal()
                     $("#btn-add").html("<i class='fa fa-plus'></i> Cập nhật");
                     $("#titleModel").html(translate("Cập nhật"));
@@ -222,8 +222,8 @@
     function clearError() {
         $("#ErrorHoTen").hide();
         $("#ErrorNgaySinh").hide();
-        $("#ErrorNoiCuTru").hide();
-        $("#ErrorQuocGia").hide();
+        $("#ErrorSoBangCap").hide();
+        $("#ErrorSoHieu").hide();
     }
     function TaoQR(id)
     {
@@ -256,9 +256,9 @@
         var fd = new FormData();
         fd.append("Id",  $("#Id").val());
         fd.append("HoTen", $("#HoTen").val());
-        fd.append("QuocGia", $("#QuocGia").val());
-        fd.append("NgaySinh", NgaySinh);
-        fd.append("NoiCuTru", $("#NoiCuTru").val());
+        fd.append("SoHieu", $("#SoHieu").val());
+        fd.append("NgaySinh", $("#NgaySinh").val());
+        fd.append("SoBangCap", $("#SoBangCap").val());
         fd.append("AvatarFile", avatar);
        
         $.ajax({

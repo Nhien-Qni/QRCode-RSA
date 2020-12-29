@@ -11,11 +11,11 @@ namespace QRCode_RSA.Controllers
 {
     public class QRCodeController : Controller
     {
-        QRCodeEntities db;
+        QRCodeEntities1 db;
         public Tool.TaoMa rsa;
         public QRCodeController()
         {
-            db = new QRCodeEntities();
+            db = new QRCodeEntities1();
             rsa = new Tool.TaoMa();
             if (db.RSAs.FirstOrDefault() != null)
             {

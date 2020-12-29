@@ -12,16 +12,26 @@ using System.Text;
 using System.Globalization;
 using QRCode_RSA.Models;
 using QRCode_RSA.Content.ultilities;
+using QRCode_RSA.Models.ViewModel;
+using AutoMapper;
 
 namespace QRCode_RSA.Controllers
 {
     public class TaoMaController : Controller
     {
-        QRCodeEntities db;
+        QRCodeEntities1 db;
         public Tool.TaoMa rsa;
+        private readonly IMapper _iMapperView = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<User, UserViewModel > ();
+        }).CreateMapper();
+        private readonly IMapper _iMapper = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<UserViewModel, User>();
+        }).CreateMapper();
         public TaoMaController()
         {
-            db = new QRCodeEntities();
+            db = new QRCodeEntities1();
             rsa = new Tool.TaoMa();
             if (db.RSAs.FirstOrDefault() != null)
             {
@@ -60,7 +70,7 @@ namespace QRCode_RSA.Controllers
             return Json(Common.TaoQRCode(TaoQR), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult ThemSua(UsersViewModel user)
+        public ActionResult ThemSua(UserViewModel user)
         {
             int id = user.Id;
             var errors = Validate(user);
@@ -79,9 +89,18 @@ namespace QRCode_RSA.Controllers
             }
             if (id == 0)
             {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return Json(new { Id = 0, JsonRequestBehavior.AllowGet });
+                try
+                {
+                    var data = _iMapper.Map<UserViewModel, User>(user);
+                    db.Users.Add(data);
+                    db.SaveChanges();
+                    return Json(new { Id = 0, JsonRequestBehavior.AllowGet });
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+                
             }
             else
             {
@@ -106,7 +125,8 @@ namespace QRCode_RSA.Controllers
         public ActionResult GetItem(int Id)
         {
             var check = db.Users.FirstOrDefault(n => n.Id == Id);
-            return Json(check, JsonRequestBehavior.AllowGet);
+            var data = _iMapperView.Map<User, UserViewModel>(check);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult XoaItem(int Id)
@@ -132,24 +152,45 @@ namespace QRCode_RSA.Controllers
                     Description = "Họ tên không được trống."
                 });
             }
+           
+            if (String.IsNullOrEmpty(user.SoHieu.ToString()) || String.IsNullOrEmpty(user.SoHieu.ToString().Trim()) )
+            {
+              
+                errors.Add(new ValidateError
+                {
+                    Id = "SoHieu",
+                    Description = "Số hiệu không được trống."
+                });
+                double tempInt = 0;
+                bool result = double.TryParse(user.SoHieu.ToString(), out tempInt);
+                if (!result)
+                {
+                    errors.Add(new ValidateError
+                    {
+                        Id = "SoHieu",
+                        Description = "Số hiệu phải là số."
+                    });
+                }
+               
+            }
 
-            if (String.IsNullOrEmpty(user.NoiCuTru) || String.IsNullOrEmpty(user.NoiCuTru.Trim()))
-            {
-                errors.Add(new ValidateError
-                {
-                    Id = "NoiCuTru",
-                    Description = "Nơi cư trú không được trống."
-                });
-            }
-            if (String.IsNullOrEmpty(user.QuocGia) || String.IsNullOrEmpty(user.QuocGia.Trim()))
-            {
-                errors.Add(new ValidateError
-                {
-                    Id = "QuocGia",
-                    Description = "Quốc gia không được trống."
-                });
-            }
-            if (!user.NgaySinh.HasValue)
+            //if (String.IsNullOrEmpty(user.NoiCuTru) || String.IsNullOrEmpty(user.NoiCuTru.Trim()))
+            //{
+            //    errors.Add(new ValidateError
+            //    {
+            //        Id = "NoiCuTru",
+            //        Description = "Nơi cư trú không được trống."
+            //    });
+            //}
+            //if (String.IsNullOrEmpty(user.QuocGia) || String.IsNullOrEmpty(user.QuocGia.Trim()))
+            //{
+            //    errors.Add(new ValidateError
+            //    {
+            //        Id = "QuocGia",
+            //        Description = "Quốc gia không được trống."
+            //    });
+            //}
+            if (String.IsNullOrEmpty(user.NgaySinh.ToString()))
             {
                 errors.Add(new ValidateError
                 {

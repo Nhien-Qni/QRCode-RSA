@@ -20,14 +20,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HoTen" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="QuocGia" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="NoiCuTru" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QuocGia" Type="nvarchar" MaxLength="100" />
+          <Property Name="NoiCuTru" Type="nvarchar" MaxLength="50" />
           <Property Name="Avatar" Type="nvarchar(max)" />
-          <Property Name="NgaySinh" Type="date" />
-          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="SoHieu" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="NgaySinh" Type="date" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="SoBangCap" Type="varchar" MaxLength="20" />
+          <Property Name="SoHieu" Type="int" />
         </EntityType>
         <EntityContainer Name="QRCodeModelStoreContainer">
           <EntitySet Name="RSA" EntityType="Self.RSA" Schema="dbo" store:Type="Tables" />
@@ -37,25 +37,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QRCodeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="QuocGia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="NoiCuTru" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="NgaySinh" Type="DateTime" Precision="0" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SoHieu" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="SoBangCap" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityContainer Name="QRCodeEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <EntitySet Name="RSAs" EntityType="QRCodeModel.RSA" />
-        </EntityContainer>
         <EntityType Name="RSA">
           <Key>
             <PropertyRef Name="Id" />
@@ -65,35 +46,54 @@
           <Property Name="PublicKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PrivateKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuocGia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NoiCuTru" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NgaySinh" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SoBangCap" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SoHieu" Type="Byte" />
+        </EntityType>
+        <EntityContainer Name="QRCodeEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="RSAs" EntityType="Self.RSA" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="QRCodeModelStoreContainer" CdmEntityContainer="QRCodeEntities">
+        <EntityContainerMapping StorageEntityContainer="QRCodeModelStoreContainer" CdmEntityContainer="QRCodeEntities1">
+          <EntitySetMapping Name="RSAs">
+            <EntityTypeMapping TypeName="QRCodeModel.RSA">
+              <MappingFragment StoreEntitySet="RSA">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+                <ScalarProperty Name="PrivateKey" ColumnName="PrivateKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="QRCodeModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="SoBangCap" ColumnName="SoBangCap" />
-                <ScalarProperty Name="SoHieu" ColumnName="SoHieu" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="HoTen" ColumnName="HoTen" />
                 <ScalarProperty Name="QuocGia" ColumnName="QuocGia" />
                 <ScalarProperty Name="NoiCuTru" ColumnName="NoiCuTru" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RSAs">
-            <EntityTypeMapping TypeName="QRCodeModel.RSA">
-              <MappingFragment StoreEntitySet="RSA">
-                <ScalarProperty Name="PrivateKey" ColumnName="PrivateKey" />
-                <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
-                <ScalarProperty Name="Key" ColumnName="Key" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="SoBangCap" ColumnName="SoBangCap" />
+                <ScalarProperty Name="SoHieu" ColumnName="SoHieu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
