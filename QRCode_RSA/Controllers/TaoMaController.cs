@@ -19,7 +19,7 @@ namespace QRCode_RSA.Controllers
 {
     public class TaoMaController : Controller
     {
-        QRCodeEntities1 db;
+        QRCodeEntities db;
         public Tool.TaoMa rsa;
         private readonly IMapper _iMapperView = new MapperConfiguration(cfg =>
         {
@@ -31,7 +31,7 @@ namespace QRCode_RSA.Controllers
         }).CreateMapper();
         public TaoMaController()
         {
-            db = new QRCodeEntities1();
+            db = new QRCodeEntities();
             rsa = new Tool.TaoMa();
             if (db.RSAs.FirstOrDefault() != null)
             {
@@ -161,8 +161,8 @@ namespace QRCode_RSA.Controllers
                     Id = "SoHieu",
                     Description = "Số hiệu không được trống."
                 });
-                double tempInt = 0;
-                bool result = double.TryParse(user.SoHieu.ToString(), out tempInt);
+                int tempInt = 0;
+                bool result = int.TryParse(user.SoHieu.ToString(), out tempInt);
                 if (!result)
                 {
                     errors.Add(new ValidateError
@@ -190,7 +190,7 @@ namespace QRCode_RSA.Controllers
             //        Description = "Quốc gia không được trống."
             //    });
             //}
-            if (String.IsNullOrEmpty(user.NgaySinh.ToString()))
+            if (String.IsNullOrEmpty(user.NgaySinh.ToString()) || user.NgaySinh.Year == 1 )
             {
                 errors.Add(new ValidateError
                 {

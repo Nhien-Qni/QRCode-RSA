@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="QRCodeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="QRCodeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="RSA">
           <Key>
             <PropertyRef Name="Id" />
@@ -27,13 +27,14 @@
           <Property Name="Username" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="SoBangCap" Type="varchar" MaxLength="20" />
-          <Property Name="SoHieu" Type="int" />
+          <Property Name="SoHieu" Type="bigint" />
         </EntityType>
         <EntityContainer Name="QRCodeModelStoreContainer">
           <EntitySet Name="RSA" EntityType="Self.RSA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QRCodeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -59,9 +60,9 @@
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SoBangCap" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="SoHieu" Type="Byte" />
+          <Property Name="SoHieu" Type="Int64" />
         </EntityType>
-        <EntityContainer Name="QRCodeEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="QRCodeEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="RSAs" EntityType="Self.RSA" />
           <EntitySet Name="Users" EntityType="Self.User" />
         </EntityContainer>
@@ -70,7 +71,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="QRCodeModelStoreContainer" CdmEntityContainer="QRCodeEntities1">
+        <EntityContainerMapping StorageEntityContainer="QRCodeModelStoreContainer" CdmEntityContainer="QRCodeEntities">
           <EntitySetMapping Name="RSAs">
             <EntityTypeMapping TypeName="QRCodeModel.RSA">
               <MappingFragment StoreEntitySet="RSA">

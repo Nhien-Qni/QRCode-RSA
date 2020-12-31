@@ -11,7 +11,7 @@ namespace QRCode_RSA.Controllers
 {
     public class LoginController : Controller
     {
-        QRCodeEntities1 db;
+        QRCodeEntities db;
         // GET: Login
         public ActionResult Index()
         {
@@ -54,7 +54,7 @@ namespace QRCode_RSA.Controllers
                 ViewBag.ErrorMessage = $"<ol>{errorStr}</ol>";
                 return View(userViewModel);
             }
-            db = new QRCodeEntities1();
+            db = new QRCodeEntities();
             var user = db.Users.FirstOrDefault(n => n.Username == userViewModel.Username.Trim() && n.Password == userViewModel.Password);
             if (user != null && user.Username != null)
             {

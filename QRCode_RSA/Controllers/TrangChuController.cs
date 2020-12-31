@@ -12,11 +12,11 @@ namespace QRCode_RSA.Controllers
 {
     public class TrangChuController : Controller
     {
-        QRCodeEntities1 db;
+        QRCodeEntities db;
         Tool.TaoMa rsa = new Tool.TaoMa();
         public TrangChuController()
         {
-            db = new QRCodeEntities1();
+            db = new QRCodeEntities();
             rsa = new Tool.TaoMa();
             if (db.RSAs.FirstOrDefault() != null)
             {

@@ -23,6 +23,6 @@ namespace QRCode_RSA.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string SoBangCap { get; set; }
-        public Nullable<byte> SoHieu { get; set; }
+        public Nullable<long> SoHieu { get; set; }
     }
 }

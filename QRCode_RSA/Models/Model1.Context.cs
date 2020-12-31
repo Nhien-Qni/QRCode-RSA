@@ -13,10 +13,10 @@ namespace QRCode_RSA.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class QRCodeEntities1 : DbContext
+    public partial class QRCodeEntities : DbContext
     {
-        public QRCodeEntities1()
-            : base("name=QRCodeEntities1")
+        public QRCodeEntities()
+            : base("name=QRCodeEntities")
         {
         }
     

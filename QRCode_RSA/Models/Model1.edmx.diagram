@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="09634f90023041eb8a1c9210ca0ecc08" Name="Diagram1">
+      <Diagram DiagramId="54bb34b64bc8449fbf3ab333453b09f3" Name="Diagram1">
         <EntityTypeShape EntityType="QRCodeModel.RSA" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QRCodeModel.User" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
