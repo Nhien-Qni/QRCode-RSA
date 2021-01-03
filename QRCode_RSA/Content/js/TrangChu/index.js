@@ -16,8 +16,10 @@ function QuetMa() {
                 $("#HinhAnh").html(data.DuLieu.Avatar).attr({ "src": data.DuLieu.Avatar == null ? "/images/person.png" : data.DuLieu.Avatar });
                 $("#HoTen").html(data.DuLieu.HoTen);
                 $("#NgaySinh").html(data.DuLieu.NgaySinhString);
-                $("#NoiCuTru").html(data.DuLieu.NoiCuTru);
-                $("#QuocGia").html(data.DuLieu.QuocGia);
+                //$("#NoiCuTru").html(data.DuLieu.NoiCuTru);
+                //$("#QuocGia").html(data.DuLieu.QuocGia);
+                $("#SoHieu").html(data.DuLieu.SoHieu);
+                $("#SoBangCap").html(data.DuLieu.SoBangCap);
                 $('#txt_barcode').val("");
                 focustb();
             }
@@ -26,8 +28,8 @@ function QuetMa() {
                 $("#HinhAnh").attr({ "src": "/images/person.png" });
                 $("#NgaySinh").html("");
                 $("#HoTen").html("");
-                $("#NoiCuTru").html("");
-                $("#QuocGia").html("");
+                $("#SoHieu").html("");
+                $("#SoBangCap").html("");
                 $('#txt_barcode').val("");
                 focustb();
             }

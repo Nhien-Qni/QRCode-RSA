@@ -7,12 +7,22 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using AutoMapper;
+using QRCode_RSA.Models.ViewModel;
+using System.IO;
+using System.Drawing.Imaging;
+using Microsoft.Office.Interop.Word;
+using System.Drawing;
 
 namespace QRCode_RSA.Controllers
 {
     public class TrangChuController : Controller
     {
         QRCodeEntities db;
+        private readonly IMapper _iMapperView = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<User, UserViewModel>();
+        }).CreateMapper();
         Tool.TaoMa rsa = new Tool.TaoMa();
         public TrangChuController()
         {
@@ -28,6 +38,7 @@ namespace QRCode_RSA.Controllers
         // GET: TrangChu
         public ActionResult Index()
         {
+            ConvertWordtoImage();
             return View();
         }
         [HttpPost]
@@ -66,7 +77,8 @@ namespace QRCode_RSA.Controllers
                 {
                     if (bangroD.Equals(Encoding.Unicode.GetString(Common.HashString(data))))
                     {
-                        return Json(new { isSuccess = "Qrcode chính xác", DuLieu = check }, JsonRequestBehavior.AllowGet);
+                        var duLieu = _iMapperView.Map<User, UserViewModel>(check);
+                        return Json(new { isSuccess = "Qrcode chính xác", DuLieu = duLieu }, JsonRequestBehavior.AllowGet);
                     }
                 }
                 return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
@@ -75,6 +87,42 @@ namespace QRCode_RSA.Controllers
             {
                 return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
             }     
+        }
+        public void ConvertWordtoImage()
+        {
+            string filename1 = "Doc1.docx";
+            string startupPath = @"C:\Users\NHIEN\Desktop\";
+            Microsoft.Office.Interop.Word.Application myWordApp = new Microsoft.Office.Interop.Word.Application();
+            Document myWordDoc = new Document();
+            object missing = System.Type.Missing;
+            object path1 = startupPath + filename1;
+            myWordDoc = myWordApp.Documents.Add(path1, missing, missing, missing);
+
+            foreach (Microsoft.Office.Interop.Word.Window window in myWordDoc.Windows)
+            {
+                foreach (Microsoft.Office.Interop.Word.Pane pane in window.Panes)
+                {
+                    for (var i = 1; i <= pane.Pages.Count; i++)
+                    {
+                        var bits = pane.Pages[i].EnhMetaFileBits;
+                        var target = path1 + "_image.doc";
+                        try
+                        {
+                            using (var ms = new MemoryStream((byte[])(bits)))
+                            {
+                                var image = System.Drawing.Image.FromStream(ms);
+                                image = new Bitmap(image);
+                                var pngTarget = Path.ChangeExtension(target, "png");
+                                image.Save(pngTarget, System.Drawing.Imaging.ImageFormat.Png);
+                            }
+                        }
+                        catch (System.Exception ex)
+                        { }
+                    }
+                }
+            }
+            myWordDoc.Close(Type.Missing, Type.Missing, Type.Missing);
+            myWordApp.Quit(Type.Missing, Type.Missing, Type.Missing);
         }
     }
 }
