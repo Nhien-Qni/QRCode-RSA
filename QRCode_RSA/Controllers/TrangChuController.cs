@@ -91,11 +91,13 @@ namespace QRCode_RSA.Controllers
         public void ConvertWordtoImage()
         {
             string filename1 = "Doc1.docx";
-            string startupPath = @"C:\Users\NHIEN\Desktop\";
+            const string saveFolder = "/Storage";
+            const string saveImage = "images";
+            string startupPath = System.Web.HttpContext.Current.Server.MapPath("/Storage");
             Microsoft.Office.Interop.Word.Application myWordApp = new Microsoft.Office.Interop.Word.Application();
             Document myWordDoc = new Document();
             object missing = System.Type.Missing;
-            object path1 = startupPath + filename1;
+            object path1 = Path.Combine(startupPath, filename1);
             myWordDoc = myWordApp.Documents.Add(path1, missing, missing, missing);
 
             foreach (Microsoft.Office.Interop.Word.Window window in myWordDoc.Windows)
@@ -105,14 +107,18 @@ namespace QRCode_RSA.Controllers
                     for (var i = 1; i <= pane.Pages.Count; i++)
                     {
                         var bits = pane.Pages[i].EnhMetaFileBits;
-                        var target = path1 + "_image.doc";
+                        var target = Path.Combine(startupPath, saveImage);
+                        if (!Directory.Exists(target))
+                        {
+                            Directory.CreateDirectory(target);
+                        }
                         try
                         {
                             using (var ms = new MemoryStream((byte[])(bits)))
                             {
                                 var image = System.Drawing.Image.FromStream(ms);
                                 image = new Bitmap(image);
-                                var pngTarget = Path.ChangeExtension(target, "png");
+                                var pngTarget = Path.ChangeExtension(target+"\\page"+i, "png");
                                 image.Save(pngTarget, System.Drawing.Imaging.ImageFormat.Png);
                             }
                         }
@@ -121,6 +127,9 @@ namespace QRCode_RSA.Controllers
                     }
                 }
             }
+            //var fileNameTemp = $"ImportDV_{DateTime.Now:yyyyMMddHHmmss}{extension}";
+            //var filePathTemp = Path.Combine(fullPath, fileNameTemp);
+            //file.SaveAs(filePathTemp);
             myWordDoc.Close(Type.Missing, Type.Missing, Type.Missing);
             myWordApp.Quit(Type.Missing, Type.Missing, Type.Missing);
         }
