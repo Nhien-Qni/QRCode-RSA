@@ -11,5 +11,6 @@ namespace QRCode_RSA.Models.ViewModel
         public string Code { get; set; }
         public string CurentCode { get; set; }
         public HttpPostedFileBase AvatarFile { get; set; }
+        public string savefilename { get; set; }
     }
 }

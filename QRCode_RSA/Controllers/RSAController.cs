@@ -1,4 +1,5 @@
-﻿using QRCode_RSA.Models;
+﻿using Dashboard.Common;
+using QRCode_RSA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,9 @@ namespace QRCode_RSA.Controllers
         // GET: RSA
         public ActionResult Index()
         {
-            if (Session["User"] != null)
-            {
-                if (db.RSAs.FirstOrDefault() != null)
-                    return View(db.RSAs.FirstOrDefault());
-                return View();
-            }
-            return RedirectToAction("Index", "Login");
+            if (db.RSAs.FirstOrDefault() != null)
+                return View(db.RSAs.FirstOrDefault());
+            return View();
         }
         public ActionResult TaoKey(string data)
         {

@@ -138,6 +138,56 @@
                                  <div class="col-md-6">
                                      <div class="form-group">
                                          <label>
+                                             Giới tính: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                         </label>
+
+                                         <select name="cars" id="GioiTinh" class="form-control">
+                                             <option value="true">Nam</option>
+                                             <option value="false">Nữ</option>
+                                         </select>
+                                         <p id="ErrorGioiTinh" class="text-danger m-b-0"></p>
+                                     </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label>
+                                             Ngành đào tạo: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                         </label>
+
+                                         <input type="text" class="form-control" id="NganhDaoTao" value="" required
+                                                placeholder="Nhập ngành đào tạo">
+                                         <p id="ErrorNganhDaoTao" class="text-danger m-b-0"></p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label>
+                                             Hình thức: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                         </label>
+
+                                         <input type="text" class="form-control" id="HinhThuc" value="" required
+                                                placeholder="Nhập hình thức">
+                                         <p id="ErrorHinhThuc" class="text-danger m-b-0"></p>
+                                     </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label>
+                                             Xếp loại: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
+                                         </label>
+
+                                         <input type="text" class="form-control" id="XepLoai" value="" required
+                                                placeholder="Nhập số vào sổ">
+                                         <p id="ErrorXepLoai" class="text-danger m-b-0"></p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label>
                                              Số hiệu: <span class="text-danger" @*id="@Model.Id-Required"*@>*</span>
                                          </label>
 
@@ -201,6 +251,10 @@
                     $('#previewAvatar').attr('src', data.Avatar != null ? data.Avatar : "/images/no-image.jpg");
                     $("#SoBangCap").val(data.SoBangCap);
                     $("#SoHieu").val(data.SoHieu);
+                    $("#XepLoai").val(data.XepLoai);
+                    $("#NganhDaoTao").val(data.NganhDaoTao);
+                    $("#HinhThuc").val(data.HinhThuc);
+                    $("#GioiTinh option[value="+data.GioiTinh+"]").prop("selected", true);
                     $("#UserModal").modal()
                     $("#btn-add").html("<i class='fa fa-plus'></i> Cập nhật");
                     $("#titleModel").html(translate("Cập nhật"));
@@ -224,6 +278,10 @@
         $("#ErrorNgaySinh").hide();
         $("#ErrorSoBangCap").hide();
         $("#ErrorSoHieu").hide();
+        $("#ErrorHinhThuc").hide();
+        $("#ErrorNganhDaoTao").hide();
+        $("#ErrorGioiTinh").hide();
+        $("#ErrorXepLoai").hide();
     }
     function TaoQR(id)
     {
@@ -236,14 +294,16 @@
             contentType: false,
             type: "POST",
             success: function (data) {
-                if (data != null && data.isError == null)
+                if (data != null && data.isError == null && data.Content != null)
+                {
                     base64toImage(data.Content, data.FileName);
+                }    
                 else
                     toastr.error(data.isError);
             },
-            error: function () {
+            error: function (ts) {
                 toastr.error(translate("loi_xay_ra"));
-                window.location.reload();
+                //window.location.reload();
             }
         });
     }
@@ -257,6 +317,10 @@
         fd.append("Id",  $("#Id").val());
         fd.append("HoTen", $("#HoTen").val());
         fd.append("SoHieu", $("#SoHieu").val());
+        fd.append("GioiTinh", $("#GioiTinh").val());
+        fd.append("NganhDaoTao", $("#NganhDaoTao").val());
+        fd.append("XepLoai", $("#XepLoai").val());
+        fd.append("HinhThuc", $("#HinhThuc").val());
         fd.append("NgaySinh", NgaySinh);
         fd.append("SoBangCap", $("#SoBangCap").val());
         fd.append("AvatarFile", avatar);

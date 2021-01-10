@@ -25,17 +25,17 @@ namespace QRCode_RSA.Controllers
             var errorStr = "";
             var isError = false;
 
-            if (string.IsNullOrEmpty(userViewModel.Username))
-            {
-                errorStr += "<li>Tên truy cập không được trống</li>";
-                isError = true;
-            }
+            //if (string.IsNullOrEmpty(userViewModel.Username))
+            //{
+            //    errorStr += "<li>Tên truy cập không được trống</li>";
+            //    isError = true;
+            //}
 
-            if (string.IsNullOrEmpty(userViewModel.Password))
-            {
-                errorStr += "<li>Mật khẩu không được trống</li>";
-                isError = true;
-            }
+            //if (string.IsNullOrEmpty(userViewModel.Password))
+            //{
+            //    errorStr += "<li>Mật khẩu không được trống</li>";
+            //    isError = true;
+            //}
 
             if (string.IsNullOrEmpty(userViewModel.Code))
             {
@@ -54,15 +54,15 @@ namespace QRCode_RSA.Controllers
                 ViewBag.ErrorMessage = $"<ol>{errorStr}</ol>";
                 return View(userViewModel);
             }
-            db = new QRCodeEntities();
-            var user = db.Users.FirstOrDefault(n => n.Username == userViewModel.Username.Trim() && n.Password == userViewModel.Password);
-            if (user != null && user.Username != null)
-            {
-                Session["User"] = !string.IsNullOrEmpty(user.Username) ? user.Username : "";
-                return RedirectToAction("Index", "RSA");
-            }
+            //db = new QRCodeEntities();
+            //var user = db.Users.FirstOrDefault(n => n.Username == userViewModel.Username.Trim() && n.Password == userViewModel.Password);
+            //if (user != null && user.Username != null)
+            //{
+            //    Session["User"] = !string.IsNullOrEmpty(user.Username) ? user.Username : "";
+            //    return RedirectToAction("Index", "RSA");
+            //}
 
-            ViewBag.ErrorMessage = $"<ol><li>Tên truy cập hoặc mật khẩu không đúng</li></ol>";
+            //ViewBag.ErrorMessage = $"<ol><li>Tên truy cập hoặc mật khẩu không đúng</li></ol>";
 
             return View(userViewModel);
         }

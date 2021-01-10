@@ -13,6 +13,7 @@ using System.IO;
 using System.Drawing.Imaging;
 using Microsoft.Office.Interop.Word;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace QRCode_RSA.Controllers
 {
@@ -38,7 +39,6 @@ namespace QRCode_RSA.Controllers
         // GET: TrangChu
         public ActionResult Index()
         {
-            ConvertWordtoImage();
             return View();
         }
         [HttpPost]
@@ -47,6 +47,7 @@ namespace QRCode_RSA.Controllers
             try
             {
                 string data = "";
+                string savefilename = "";
                 if (rsa.PrivateKeyXML == null)
                 {
                     return Json(new { isError = "Chưa có khóa bí mật" }, JsonRequestBehavior.AllowGet);
@@ -56,82 +57,40 @@ namespace QRCode_RSA.Controllers
                 //string dulieuLayDuoc = Common.FromHexString(key);
                 int id = int.Parse(splitkey[0]);
                 var check = db.Users.FirstOrDefault(n => n.Id == id);
-                if ( check != null)
+                if (check != null)
                 {
-                    string HoTen = Encoding.UTF8.GetString(Convert.FromBase64String(splitkey[1])); 
+                    string HoTen = Encoding.UTF8.GetString(Convert.FromBase64String(splitkey[1]));
                     DateTime? NgaySinh = DateTime.Parse(splitkey[2]);
-                    string NoiCuTru = Encoding.UTF8.GetString(Convert.FromBase64String(splitkey[3]));
-                    string QuocGia = Encoding.UTF8.GetString(Convert.FromBase64String(splitkey[4]));
-                    if (check.HoTen != HoTen && check.NgaySinh != NgaySinh && check.NoiCuTru != NoiCuTru && check.QuocGia != QuocGia)
+                    string SoHieu = splitkey[3];
+                    string SoBangCap = splitkey[4];
+                    savefilename = splitkey[5].Trim();
+                    if (check.HoTen != HoTen && check.NgaySinh != NgaySinh && check.SoHieu.ToString() != SoHieu && check.SoBangCap != SoBangCap)
                     {
-                        return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { isError = "Thông tin sinh viên không chính xác" }, JsonRequestBehavior.AllowGet);
                     }
-                    data =check.Id + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(check.HoTen)) + ",$$$$$ " + (check.NgaySinh != null ? check.NgaySinh.ToString() : "") + ",$$$$$ " + (check.SoHieu != null ? check.SoHieu.ToString() : "") + ",$$$$$ " + (check.SoBangCap != null ? check.SoBangCap.ToString() : "");
+                    data = check.Id + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(check.HoTen)) + ",$$$$$ " + (check.NgaySinh != null ? check.NgaySinh.ToString() : "") + ",$$$$$ " + check.SoHieu.ToString() + ",$$$$$ " + (check.SoBangCap != null ? check.SoBangCap.ToString() : "") + ",$$$$$ " + savefilename;
                 }
                 else
                 {
-                    return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isError = "Không có thông tin sinh viên." }, JsonRequestBehavior.AllowGet);
                 }
-                var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, splitkey[5]);
+                var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, splitkey[6]);
                 if (!string.IsNullOrEmpty(bangroD) && !string.IsNullOrEmpty(data))
                 {
                     if (bangroD.Equals(Encoding.Unicode.GetString(Common.HashString(data))))
                     {
                         var duLieu = _iMapperView.Map<User, UserViewModel>(check);
+                        duLieu.savefilename = "/Storage/images/" + savefilename + ".png";
+                        //ConvertWordtoImage(duLieu);
                         return Json(new { isSuccess = "Qrcode chính xác", DuLieu = duLieu }, JsonRequestBehavior.AllowGet);
                     }
                 }
                 return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
             }
-           catch (Exception ex)
+            catch (Exception ex)
             {
                 return Json(new { isError = "QRcode không chính xác" }, JsonRequestBehavior.AllowGet);
-            }     
-        }
-        public void ConvertWordtoImage()
-        {
-            string filename1 = "Doc1.docx";
-            const string saveFolder = "/Storage";
-            const string saveImage = "images";
-            string startupPath = System.Web.HttpContext.Current.Server.MapPath("/Storage");
-            Microsoft.Office.Interop.Word.Application myWordApp = new Microsoft.Office.Interop.Word.Application();
-            Document myWordDoc = new Document();
-            object missing = System.Type.Missing;
-            object path1 = Path.Combine(startupPath, filename1);
-            myWordDoc = myWordApp.Documents.Add(path1, missing, missing, missing);
-
-            foreach (Microsoft.Office.Interop.Word.Window window in myWordDoc.Windows)
-            {
-                foreach (Microsoft.Office.Interop.Word.Pane pane in window.Panes)
-                {
-                    for (var i = 1; i <= pane.Pages.Count; i++)
-                    {
-                        var bits = pane.Pages[i].EnhMetaFileBits;
-                        var target = Path.Combine(startupPath, saveImage);
-                        if (!Directory.Exists(target))
-                        {
-                            Directory.CreateDirectory(target);
-                        }
-                        try
-                        {
-                            using (var ms = new MemoryStream((byte[])(bits)))
-                            {
-                                var image = System.Drawing.Image.FromStream(ms);
-                                image = new Bitmap(image);
-                                var pngTarget = Path.ChangeExtension(target+"\\page"+i, "png");
-                                image.Save(pngTarget, System.Drawing.Imaging.ImageFormat.Png);
-                            }
-                        }
-                        catch (System.Exception ex)
-                        { }
-                    }
-                }
             }
-            //var fileNameTemp = $"ImportDV_{DateTime.Now:yyyyMMddHHmmss}{extension}";
-            //var filePathTemp = Path.Combine(fullPath, fileNameTemp);
-            //file.SaveAs(filePathTemp);
-            myWordDoc.Close(Type.Missing, Type.Missing, Type.Missing);
-            myWordApp.Quit(Type.Missing, Type.Missing, Type.Missing);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿"use strict";
 function base64toImage(data, fileName) {
     var bufferArray = base64ToArrayBuffer(data);
-    var blobStore = new Blob([bufferArray], { type: "image/jpeg" });
+    var blobStore = new Blob([bufferArray], { type: "image/png" });
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveOrOpenBlob(blobStore);
         return;

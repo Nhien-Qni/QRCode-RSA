@@ -31,7 +31,7 @@
             contentType: false,
             type: "POST",
             success: function (data) {
-                if (data != null && data.isError == null) {
+                if (data != null && data.isError == null && data.PublicOnlyKeyXML != null && data.PrivateKeyXML != null) {
                     $("#publickey").html(data.PublicOnlyKeyXML);
                     $("#privatekey").html(data.PrivateKeyXML);
                 }

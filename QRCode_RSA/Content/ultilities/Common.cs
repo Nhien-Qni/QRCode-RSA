@@ -66,7 +66,7 @@ namespace QRCode_RSA.Content.ultilities
             salt += rand.Next().ToString(CultureInfo.InvariantCulture);
             return salt.Substring(salt.Length / 5, salt.Length / 2);
         }
-        public static FileResultViewModel TaoQRCode(string data)
+        public static string TaoQRCode(string data)
         {
             //Tạo QRCode
             using (MemoryStream ms = new MemoryStream())
@@ -75,15 +75,19 @@ namespace QRCode_RSA.Content.ultilities
 
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
                 QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
-                using (Bitmap bitMap = qrCode.GetGraphic(20))
+                using (Image bitMap = qrCode.GetGraphic(20))
                 {
-                    bitMap.Save(ms, ImageFormat.Jpeg);
+                    Image resized = new Bitmap(bitMap, new Size(100, 100));
+                    resized.Save(ms, ImageFormat.Png);
+                    resized = Controllers.TaoMaController.Transparent2Color(resized, Color.Transparent);
+                    string filePath = Path.Combine(HttpContext.Current.Server.MapPath("/Storage/images"), DateTime.Now.ToFileTime()+ ".png");
+                    System.IO.File.WriteAllBytes(filePath, ms.ToArray());
                     //string filePath = Path.Combine(Server.MapPath("/images"), DateTime.UtcNow.ToBinary() + ".jpg");
                     //System.IO.File.WriteAllBytes(filePath, ms.ToArray());
-                    var fileVm = new FileResultViewModel();
-                    fileVm.Content = Convert.ToBase64String(ms.ToArray());
-                    fileVm.FileName = DateTime.Now.ToFileTimeUtc() + ".jpg";
-                    return fileVm;
+                    //var fileVm = new FileResultViewModel();
+                    //fileVm.Content = Convert.ToBase64String(ms.ToArray());
+                    //fileVm.FileName =HoTen+"_"+DateTime.Now.ToFileTimeUtc() + ".png";
+                    return filePath;
                 }
             }
         }

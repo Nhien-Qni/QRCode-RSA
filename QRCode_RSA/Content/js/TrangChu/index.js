@@ -1,6 +1,11 @@
 ﻿"use strict";
 
 focustb();
+$("#txt_barcode").keyup(function (event) {
+    if (event.keyCode == 13) {
+        QuetMa();
+    }
+});
 function QuetMa() {
     if ($("#txt_barcode").val() == "" || $("#txt_barcode").val().trim() == "") {
         return;
@@ -12,12 +17,32 @@ function QuetMa() {
         data: { "key": $("#txt_barcode").val() },
         success: function (data) {
             if (data != null && data.isError == null) {
+                // Get the modal
+                var modal = document.getElementById("myModal");
+
+                // Get the image and insert it inside the modal - use its "alt" text as a caption
+                var modalImg = document.getElementById("img01");
+                //var captionText = document.getElementById("caption");
+                modal.style.display = "block";
+                modalImg.src = data.DuLieu.savefilename;
+                //captionText.innerHTML = this.alt;
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
                 toastr.success(data.isSuccess);
                 $("#HinhAnh").html(data.DuLieu.Avatar).attr({ "src": data.DuLieu.Avatar == null ? "/images/person.png" : data.DuLieu.Avatar });
                 $("#HoTen").html(data.DuLieu.HoTen);
                 $("#NgaySinh").html(data.DuLieu.NgaySinhString);
-                //$("#NoiCuTru").html(data.DuLieu.NoiCuTru);
-                //$("#QuocGia").html(data.DuLieu.QuocGia);
+                $("#XepLoai").html(data.DuLieu.XepLoai);
+                $("#HinhThuc").html(data.DuLieu.HinhThuc);
+                $("#NganhDaoTao").html(data.DuLieu.NganhDaoTao);
+                $("#GioiTinh").html(data.DuLieu.GioiTinh == true ? "Nam" : "Nữ");
+
                 $("#SoHieu").html(data.DuLieu.SoHieu);
                 $("#SoBangCap").html(data.DuLieu.SoBangCap);
                 $('#txt_barcode').val("");
@@ -30,6 +55,10 @@ function QuetMa() {
                 $("#HoTen").html("");
                 $("#SoHieu").html("");
                 $("#SoBangCap").html("");
+                $("#XepLoai").html("");
+                $("#HinhThuc").html("");
+                $("#NganhDaoTao").html("");
+                $("#GioiTinh").html("");
                 $('#txt_barcode').val("");
                 focustb();
             }
@@ -56,12 +85,15 @@ function debounce(func, wait, immediate) {
         if (callNow) func.apply(context, args);
     };
 };
-function focustb()
-{
+function focustb() {
     $("#txt_barcode").focus();
 }
-//setInterval(focustb, 5000);
-$("#txt_barcode").bind("change keyup", debounce(function () {
+setInterval(focustb, 5000);
+//$("#txt_barcode").bind("change keyup", debounce(function () {
+//    QuetMa();
+//    focustb();
+//}, 1000));
+$("#txt_barcode").on("change", debounce(function () {
     QuetMa();
     focustb();
-}, 1000));
+}));

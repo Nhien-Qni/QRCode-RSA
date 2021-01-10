@@ -3,8 +3,7 @@
     ViewBag.Title = "QRCode RSA";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
-
-
+<link href="@Url.ContentVersion("~/Content/css/ShowImage.css")" rel="stylesheet" />
 <style>
     .input-icons i {
         position: absolute;
@@ -40,7 +39,7 @@
                 <img src="~/images/banner.png" style="margin-bottom:20px;max-width:100%;width:100%;height:219px" />
                 <div class="input-icons">
                     <i class="fa fa-qrcode icon222" aria-hidden="true"></i>
-                    <input type="text" placeholder="Nhập mã cần quét" id="txt_barcode" class="input-field" />
+                    <input type="text" placeholder="Nhập mã cần quét" id="txt_barcode" class="input-field"/>
                 </div>
             </div>
         </div>
@@ -52,7 +51,11 @@
             <div class="col-sm-4"><img id="HinhAnh" src="/images/person.png" style="max-width:100%;height:100%;max-height:250px;padding:0;background-color:white" /></div>
             <div class="col-sm-8 padding-responsive" style="text-align:justify;color:#fff;font-size:22px">
                 <b>Họ Tên: </b> <span id="HoTen"></span> <br />
+                <b>Giới Tính: </b> <span id="GioiTinh"></span> <br />
                 <b>Ngày Sinh: </b> <span id="NgaySinh"></span> <br />
+                <b>Ngành Đào Tạo: </b> <span id="NganhDaoTao"></span> <br />
+                <b>Hình Thức: </b> <span id="HinhThuc"></span> <br />
+                <b>Xếp Loại: </b> <span id="XepLoai"></span> <br />
                 <b>Số Hiệu: </b> <span id="SoHieu"></span> <br />
                 <b>Số vào sổ: </b> <span id="SoBangCap"></span> <br />
                 @*<b>Đơn vị CT: </b> <span id="DonVi"></span> <br />*@
@@ -60,6 +63,12 @@
             </div>
         </div>
     </fieldset>
+</div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    @*<div id="caption"></div>*@
 </div>
 <style>
 

@@ -20,9 +20,11 @@ namespace QRCode_RSA.Models
         public string NoiCuTru { get; set; }
         public string Avatar { get; set; }
         public System.DateTime NgaySinh { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public int SoHieu { get; set; }
         public string SoBangCap { get; set; }
-        public Nullable<long> SoHieu { get; set; }
+        public bool GioiTinh { get; set; }
+        public string HinhThuc { get; set; }
+        public string NganhDaoTao { get; set; }
+        public string XepLoai { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dashboard.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,7 @@ namespace QRCode_RSA
     {
         protected void Application_Start()
         {
+            GlobalFilters.Filters.Add(new IsAuthorize());
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }

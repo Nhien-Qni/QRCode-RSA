@@ -55,7 +55,7 @@ namespace QRCode_RSA.Controllers
             }
             string TaoQR = data + ",$$$$$ " + duLieuMaHoa;
             //string TaoQR = Common.FromHexString(duLieuMaHoa);
-            return Json(Common.TaoQRCode(TaoQR), JsonRequestBehavior.AllowGet);
+            return Json(""/*Common.TaoQRCode(TaoQR,"")*/, JsonRequestBehavior.AllowGet);
         }
     }
 }
