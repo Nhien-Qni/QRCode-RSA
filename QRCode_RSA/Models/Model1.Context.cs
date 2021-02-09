@@ -26,6 +26,10 @@ namespace QRCode_RSA.Models
         }
     
         public virtual DbSet<RSA> RSAs { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<PhanQuyen> PhanQuyens { get; set; }
+        public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
+        public virtual DbSet<VaiTro> VaiTroes { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

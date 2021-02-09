@@ -38,7 +38,7 @@ html, body {
 }
 
 #header {
-    background: url('/Content/img/header-min.png') 0 0 no-repeat;
+    /*background: url('/Content/img/header-min.png') 0 0 no-repeat;*/
     background-color: #0066b3;
 }
 
@@ -60,7 +60,7 @@ html, body {
 }
 
 #footer {
-    background-image: url(/Content/img/footer-min.png);
+    /*background-image: url(/Content/img/footer-min.png);*/
     background-repeat: no-repeat;
     background-position: right;
     height: 90px;

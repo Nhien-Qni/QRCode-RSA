@@ -18,12 +18,14 @@ namespace QRCode_RSA.Controllers
             rsa = new Tool.TaoMa();
         }
         // GET: RSA
+        [IsAuthorize]
         public ActionResult Index()
         {
             if (db.RSAs.FirstOrDefault() != null)
                 return View(db.RSAs.FirstOrDefault());
             return View();
         }
+        [IsAuthorize]
         public ActionResult TaoKey(string data)
         {
             try

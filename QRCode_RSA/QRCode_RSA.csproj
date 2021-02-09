@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\dashboard.css" />
+    <Content Include="Content\css\main.css" />
     <Content Include="Content\css\media-screen.css" />
     <Content Include="Content\css\ShowImage.css" />
     <Content Include="Content\js\TrangChu\index.js" />
@@ -183,6 +184,7 @@
     <Compile Include="Content\ultilities\Common.cs" />
     <Compile Include="Content\ultilities\ValidateError.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\QRCodeController.cs" />
     <Compile Include="Controllers\RSAController.cs" />
     <Compile Include="Controllers\TaoMaController.cs" />
@@ -192,6 +194,9 @@
     </Compile>
     <Compile Include="Models\FileResultViewModel.cs" />
     <Compile Include="Models\HtmlHelpers\UrlVersionHelper.cs" />
+    <Compile Include="Models\Menu.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -207,12 +212,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PhanQuyen.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RSA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiKhoan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VaiTro.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModel\TaiKhoanViewModel.cs" />
     <Compile Include="Models\ViewModel\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tool\TaoMa.cs" />
@@ -256,6 +271,7 @@
     <Folder Include="Content\vendor\jquery-ui-1.12.1\" />
     <Folder Include="Content\vendor\jquery\" />
     <Folder Include="Properties\App_Data\" />
+    <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

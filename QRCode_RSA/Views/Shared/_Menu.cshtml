@@ -14,9 +14,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/TaoMa"><b>Tạo QR Image</b></a>
                 </li>
-                @*<li class="nav-item">
-                    <a class="nav-link" href="/QRCode"><b>Tạo QR Image</b></a>
-                </li>*@
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><b>Quét Mã</b></a>
+                </li>
             }
 
         </ul>
@@ -24,11 +24,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                     @{
+
                         if (Session["User"] != null)
                         {
-                            Session["User"].ToString();
+                            @Html.Raw(Session["User"].ToString().Trim()); 
                         }
-                      }
+                    }
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="/ThongTinCaNhan">Thông tin cá nhân</a>

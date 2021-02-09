@@ -1,5 +1,5 @@
 ﻿@using QRCode_RSA.Models.HtmlHelpers
-@model QRCode_RSA.Models.ViewModel.UserViewModel
+@model QRCode_RSA.Models.ViewModel.TaiKhoanViewModel
 <!DOCTYPE html>
 @{
     Layout = null;
@@ -22,9 +22,9 @@
 
         <div id="header" class="container-fluid">
             <div class="row">
-                <div class="col-sm-6 col-xs-12 height-90">&nbsp;</div>
+                <div class="col-sm-6 col-xs-12">&nbsp;</div>
                 <div class="col-sm-6 col-xs-12" id="title-company">
-                    VIỄN THÔNG QUẢNG NGÃI
+                    QR CODE
                 </div>
             </div>
         </div>
@@ -35,10 +35,10 @@
                     <div class="login-form">
                         <div style="padding-bottom: 15px;">
                             <h3 class="text-center title-frm-login">
-                                HỆ THỐNG
+                                ĐĂNG NHẬP
                             </h3>
                             <h3 class="text-center title-frm-login">
-                                TRA CỨU CƯỚC
+
                             </h3>
                         </div>
                         <form method="post" action="/Login/Index">
@@ -60,7 +60,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" style="width: 41px; padding-left: 14px;"><i class="fa fa-lock"></i></span>
                                 </div>
-                                <input type="password" class="form-control" name="Password" value="@((Model!= null && Model.Password != null)  ? Model.Password : "")" placeholder="Mật khẩu" id="Password">
+                                <input type="password" class="form-control" name="Password" value="@((Model!= null)  ? Model.Password : "")" placeholder="Mật khẩu" id="Password">
                             </div>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" name="Code" placeholder="Mã xác thực" id="Code">
@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-    <footer id="div-footer">
+    @*<footer id="div-footer">
         <div id="footer">
             <table style="width: 100%" cellspacing="0" cellpadding="0">
                 <tbody>
@@ -102,7 +102,7 @@
                 </tbody>
             </table>
         </div>
-    </footer>
+    </footer>*@
 
     <!--===============================================================================================-->
     <script src="@Url.ContentVersion("~/Content/vendor/jquery/jquery-3.2.1.min.js")" type="text/javascript"></script>

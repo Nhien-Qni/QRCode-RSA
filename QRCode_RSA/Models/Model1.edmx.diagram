@@ -6,7 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="977b55ea681f4be2bdbc4881d4d39aab" Name="Diagram1">
         <EntityTypeShape EntityType="QRCodeModel.RSA" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QRCodeModel.User" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QRCodeModel.Menu" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QRCodeModel.PhanQuyen" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="QRCodeModel.TaiKhoan" Width="1.5" PointX="2.75" PointY="5.75" />
+        <EntityTypeShape EntityType="QRCodeModel.VaiTro" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="QRCodeModel.User" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

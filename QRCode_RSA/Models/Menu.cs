@@ -12,17 +12,10 @@ namespace QRCode_RSA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Menu
     {
         public int Id { get; set; }
-        public string HoTen { get; set; }
-        public string Avatar { get; set; }
-        public System.DateTime NgaySinh { get; set; }
-        public int SoHieu { get; set; }
-        public string SoBangCap { get; set; }
-        public bool GioiTinh { get; set; }
-        public string HinhThuc { get; set; }
-        public string NganhDaoTao { get; set; }
-        public string XepLoai { get; set; }
+        public string Ten { get; set; }
+        public string MoTa { get; set; }
     }
 }

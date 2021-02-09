@@ -14,6 +14,7 @@ using System.Drawing.Imaging;
 using Microsoft.Office.Interop.Word;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using Dashboard.Common;
 
 namespace QRCode_RSA.Controllers
 {
@@ -37,11 +38,13 @@ namespace QRCode_RSA.Controllers
 
         }
         // GET: TrangChu
+        [IsAuthorize]
         public ActionResult Index()
         {
             return View();
         }
         [HttpPost]
+        [IsAuthorize]
         public JsonResult QuetMa(string key)
         {
             try

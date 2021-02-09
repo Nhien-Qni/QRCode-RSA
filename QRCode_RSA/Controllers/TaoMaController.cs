@@ -45,11 +45,13 @@ namespace QRCode_RSA.Controllers
             }
         }
         // GET: TaoMa
+        [IsAuthorize]
         public ActionResult Index()
         {
             return View(db.Users.ToList());
         }
         [HttpPost]
+        [IsAuthorize]
         public ActionResult TaoQR(int id)
         {
             try
@@ -90,6 +92,7 @@ namespace QRCode_RSA.Controllers
             }
         }
         [HttpPost]
+        [IsAuthorize]
         public ActionResult ThemSua(UserViewModel user)
         {
             int id = user.Id;
@@ -135,6 +138,7 @@ namespace QRCode_RSA.Controllers
             }
         }
         [HttpPost]
+        [IsAuthorize]
         public ActionResult GetItem(int Id)
         {
             var check = db.Users.FirstOrDefault(n => n.Id == Id);
@@ -142,6 +146,7 @@ namespace QRCode_RSA.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [IsAuthorize]
         public ActionResult XoaItem(int Id)
         {
             var check = db.Users.FirstOrDefault(n => n.Id == Id);
@@ -296,6 +301,15 @@ namespace QRCode_RSA.Controllers
                         myWordDoc.InlineShapes.AddPicture(linkQRImage, ref missing, ref missing, ref oRange);
                         // ils.Height = 2339 ;
                         //ils.Width = 1654;
+                        break;
+                    case "NgayHienTai":
+                        bm.Range.Text = DateTime.Now.Day.ToString();
+                        break;
+                    case "ThangHienTai":
+                        bm.Range.Text = DateTime.Now.Month.ToString();
+                        break;
+                    case "NamHienTai":
+                        bm.Range.Text = DateTime.Now.Year.ToString();
                         break;
                 }
             }
