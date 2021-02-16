@@ -11,6 +11,11 @@
         <EntityTypeShape EntityType="QRCodeModel.TaiKhoan" Width="1.5" PointX="2.75" PointY="5.75" />
         <EntityTypeShape EntityType="QRCodeModel.VaiTro" Width="1.5" PointX="5.75" PointY="3.75" />
         <EntityTypeShape EntityType="QRCodeModel.User" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="QRCodeModel.sysdiagram" Width="1.5" PointX="7.375" PointY="6.75" />
+        <AssociationConnector Association="QRCodeModel.FK_PhanQuyen_Menu" />
+        <AssociationConnector Association="QRCodeModel.FK_VaiTro_Menu" />
+        <AssociationConnector Association="QRCodeModel.FK_PhanQuyen_VaiTro" />
+        <AssociationConnector Association="QRCodeModel.FK_TaiKhoan_VaiTro" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

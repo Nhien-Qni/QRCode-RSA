@@ -18,5 +18,7 @@ namespace QRCode_RSA.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public int VaiTroId { get; set; }
+    
+        public virtual VaiTro VaiTro { get; set; }
     }
 }

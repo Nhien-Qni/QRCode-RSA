@@ -187,8 +187,10 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\QRCodeController.cs" />
     <Compile Include="Controllers\RSAController.cs" />
+    <Compile Include="Controllers\TaiKhoanController.cs" />
     <Compile Include="Controllers\TaoMaController.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
+    <Compile Include="Controllers\VaiTroController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -216,6 +218,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RSA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiKhoan.cs">
@@ -255,6 +260,8 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Storage\Doc1.docx" />
+    <Content Include="Views\TaiKhoan\Index.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -271,7 +278,7 @@
     <Folder Include="Content\vendor\jquery-ui-1.12.1\" />
     <Folder Include="Content\vendor\jquery\" />
     <Folder Include="Properties\App_Data\" />
-    <Folder Include="Views\Menu\" />
+    <Folder Include="Views\VaiTro\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

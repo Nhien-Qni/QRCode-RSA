@@ -12,13 +12,12 @@ namespace QRCode_RSA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PhanQuyen
+    public partial class sysdiagram
     {
-        public int Id { get; set; }
-        public int MenuId { get; set; }
-        public int VaiTroId { get; set; }
-    
-        public virtual Menu Menu { get; set; }
-        public virtual VaiTro VaiTro { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

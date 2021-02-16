@@ -1,0 +1,246 @@
+﻿@model List<QRCode_RSA.Models.Menu>
+@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_LoginLayoutPage.cshtml";
+}
+<div class="col-sm-12 col-xs-12 p-t-10 p-b-10 btn-add-mb">
+    <button style="float:right" class="btn btn-success" id="btn-open-modal" onclick="showpopThem()"><i class="fa fa-plus"></i> Thêm mới</button>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <b>DANH SÁCH NGƯỜI DÙNG</b>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-fixed table-hover" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <td align="left" class="title">
+                                                STT
+                                            </td>
+                                            <td class="title">
+                                               Key
+                                            </td>
+                                            <td class="title">
+                                               Mô tả
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count > 0)
+                                        {
+                                            for (int i = 1; i <= Model.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td> @i</td>
+                                                    <td> @Model[i - 1].Ten</td>
+                                                    <td> @Model[i - 1].MoTa</td>
+                                                    <td><button id='btn-update-item' onclick="showpopSua(@Model[i - 1].Id)" class='btn btn-primary'><i class='fa fa-pencil'></i> Sửa</button></td>
+                                                    <td><button id='btn-delete-item' onclick="Xoa(@Model[i - 1].Id)" class='btn btn-danger'><i class='fa fa-times'></i> Xóa</button></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<div class="modal fade in" id="MenuModal">
+    <div class="modal-dialog" style="max-width:60%">
+        <div class="modal-content col-md-12">
+            <div class="modal-header">
+                <h4 id="titleModel">Thêm mới</h4>
+                <button class="close " data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form enctype="multipart/form-data" method="post" id="formpost">
+                    <input type="hidden" id="Id" name="Id" value="Id" />
+                    <div class="row">
+                        <div class="col-sm-9 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            Tên:
+                                        </label>
+
+                                        <input type="text" class="form-control" id="Ten" value=""
+                                               placeholder="Nhập tên menu không dấu">
+                                        <p id="ErrorTen" class="text-danger m-b-0"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            Mô tả:
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="text" id="MoTa" class="form-control"  placeholder="Nhập mô tả" />
+                                        </div>
+                                        <p id="ErrorMoTa" class="text-danger m-b-0"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="clear:both;height:10px;"></div>
+            <div class="modal-footer">
+                <button id="btn-loading" type="button" class="btn btn-default invisible" data-dismiss="modal">
+                    <img src="~/images/loading.gif" height="25" />
+                </button>
+                <button class="btn btn-light" data-dismiss="modal"> <i class="fa fa-times"></i> Đóng</button>
+                <button type="button" onclick="Post()" class="btn btn-success">
+                    <span id="btn-add"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showpopThem() {
+        $("#MenuModal").modal()
+        $("#formpost")[0].reset();
+        $("#btn-add").html("<i class='fa fa-plus'></i> Thêm mới");
+        $("#titleModel").html(translate("Thêm mới"));
+        $("#Id").val(0);
+        $("#btn-loading").addClass("invisible");
+        clearError();
+    }
+    function showpopSua(id) {
+        $.ajax({
+            url: '/Menu/GetItem',
+            type: "POST",
+            dataType: "json",
+            data: {"Id": id},
+            success: function (data) {
+                data = $.parseJSON(data);
+                if (data && data.Id > 0) {
+                    $("#Id").val(data.Id)
+                    $("#Ten").val(data.Ten);
+                    $("#MoTa").val(data.MoTa);
+                    $("#MenuModal").modal()
+                    $("#btn-add").html("<i class='fa fa-plus'></i> Cập nhật");
+                    $("#titleModel").html(translate("Cập nhật"));
+                    $("#btn-loading").addClass("invisible");
+                }
+                else {
+                    toastr.error(translate("loi_xay_ra"));
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+                openButtonFooter();
+                toastr.error(translate("loi_xay_ra"));
+            }
+        })
+
+        clearError();
+    }
+    function clearError() {
+        $("#ErrorTen").hide();
+        $("#ErrorMoTa").hide();
+    }
+    function Post() {
+        openButtonFooter();
+        clearError();
+        var fd = new FormData();
+        fd.append("Id",  $("#Id").val());
+        fd.append("Ten", $("#Ten").val());
+        fd.append("MoTa", $("#MoTa").val());
+
+        $.ajax({
+            url: '/Menu/ThemSua',
+            type: "POST",
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function (data) {
+                if (data && data.Id > 0) {
+                    //$('#bs-table').bootstrapTable('refresh');
+                    toastr.success(translate("cap_nhat_thanh_cong"));
+                    $("#MenuModal").modal("hide");
+                    waitsecond();
+                    $("#formpost")[0].reset();
+                }
+                else if (data && data.Id == 0) {
+                    toastr.success(translate("them_thanh_cong"));
+                    $("#MenuModal").modal("hide");
+                    waitsecond();
+                    $("#formpost")[0].reset();
+                }
+                else if (data && data.Errors.length > 0) {
+                    data.Errors.map((item) => {
+                        var idError = "#" + item.Name;
+                        $(idError).show();
+                        $(idError).text(item.Description);
+                        openButtonFooter();
+                        return "";
+                    })
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+                openButtonFooter();
+                toastr.error(translate("loi_xay_ra"));
+            }
+        })
+    }
+    function Xoa(id)
+    {
+        if (!confirm('Chắc chắn muốn xóa?')) {
+            return;
+        }
+        $.ajax({
+            url: '/Menu/XoaItem',
+            type: "POST",
+            dataType: "json",
+            data: { "Id": id },
+            success: function (data) {
+                if (data) {
+                    toastr.success(translate("xoa_thanh_cong"));
+                    waitsecond();
+                }
+                else {
+                    toastr.error(translate("loi_xay_ra"));
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+                openButtonFooter();
+                toastr.error(translate("loi_xay_ra"));
+            }
+        })
+
+    }
+    function openButtonFooter() {
+        $(".modal-footer button").attr("disabled", false);
+        $("#btn-loading").addClass("invisible");
+    }
+    function waitsecond()
+    {
+        setTimeout(function () {
+            location.reload();
+        }, 1000);
+    }
+</script>
+

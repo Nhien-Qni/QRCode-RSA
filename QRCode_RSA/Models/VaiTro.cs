@@ -14,8 +14,21 @@ namespace QRCode_RSA.Models
     
     public partial class VaiTro
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public VaiTro()
+        {
+            this.PhanQuyens = new HashSet<PhanQuyen>();
+            this.TaiKhoans = new HashSet<TaiKhoan>();
+        }
+    
         public int Id { get; set; }
         public string Ten { get; set; }
         public Nullable<int> MenuId { get; set; }
+    
+        public virtual Menu Menu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhanQuyen> PhanQuyens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaiKhoan> TaiKhoans { get; set; }
     }
 }

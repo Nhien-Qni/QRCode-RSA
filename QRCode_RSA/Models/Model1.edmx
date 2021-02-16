@@ -30,13 +30,23 @@
           <Property Name="PublicKey" Type="nvarchar" MaxLength="1000" />
           <Property Name="PrivateKey" Type="nvarchar" MaxLength="1000" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="TaiKhoan">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="VaiTroId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
@@ -62,13 +72,78 @@
           <Property Name="Ten" Type="nvarchar" MaxLength="50" />
           <Property Name="MenuId" Type="int" />
         </EntityType>
+        <Association Name="FK_PhanQuyen_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="PhanQuyen" Type="Self.PhanQuyen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhanQuyen">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhanQuyen_VaiTro">
+          <End Role="VaiTro" Type="Self.VaiTro" Multiplicity="1" />
+          <End Role="PhanQuyen" Type="Self.PhanQuyen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VaiTro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhanQuyen">
+              <PropertyRef Name="VaiTroId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiKhoan_VaiTro">
+          <End Role="VaiTro" Type="Self.VaiTro" Multiplicity="1" />
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VaiTro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaiKhoan">
+              <PropertyRef Name="VaiTroId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VaiTro_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="VaiTro" Type="Self.VaiTro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VaiTro">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="QRCodeModelStoreContainer">
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhanQuyen" EntityType="Self.PhanQuyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RSA" EntityType="Self.RSA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VaiTro" EntityType="Self.VaiTro" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PhanQuyen_Menu" Association="Self.FK_PhanQuyen_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="PhanQuyen" EntitySet="PhanQuyen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhanQuyen_VaiTro" Association="Self.FK_PhanQuyen_VaiTro">
+            <End Role="VaiTro" EntitySet="VaiTro" />
+            <End Role="PhanQuyen" EntitySet="PhanQuyen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoan_VaiTro" Association="Self.FK_TaiKhoan_VaiTro">
+            <End Role="VaiTro" EntitySet="VaiTro" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VaiTro_Menu" Association="Self.FK_VaiTro_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="VaiTro" EntitySet="VaiTro" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -90,6 +165,23 @@
           <EntitySet Name="TaiKhoans" EntityType="QRCodeModel.TaiKhoan" />
           <EntitySet Name="VaiTroes" EntityType="QRCodeModel.VaiTro" />
           <EntitySet Name="Users" EntityType="QRCodeModel.User" />
+          <EntitySet Name="sysdiagrams" EntityType="QRCodeModel.sysdiagram" />
+          <AssociationSet Name="FK_PhanQuyen_Menu" Association="QRCodeModel.FK_PhanQuyen_Menu">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="PhanQuyen" EntitySet="PhanQuyens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VaiTro_Menu" Association="QRCodeModel.FK_VaiTro_Menu">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="VaiTro" EntitySet="VaiTroes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhanQuyen_VaiTro" Association="QRCodeModel.FK_PhanQuyen_VaiTro">
+            <End Role="VaiTro" EntitySet="VaiTroes" />
+            <End Role="PhanQuyen" EntitySet="PhanQuyens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaiKhoan_VaiTro" Association="QRCodeModel.FK_TaiKhoan_VaiTro">
+            <End Role="VaiTro" EntitySet="VaiTroes" />
+            <End Role="TaiKhoan" EntitySet="TaiKhoans" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Menu">
           <Key>
@@ -98,6 +190,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Ten" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MoTa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PhanQuyens" Relationship="QRCodeModel.FK_PhanQuyen_Menu" FromRole="Menu" ToRole="PhanQuyen" />
+          <NavigationProperty Name="VaiTroes" Relationship="QRCodeModel.FK_VaiTro_Menu" FromRole="Menu" ToRole="VaiTro" />
         </EntityType>
         <EntityType Name="PhanQuyen">
           <Key>
@@ -106,15 +200,18 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MenuId" Type="Int32" Nullable="false" />
           <Property Name="VaiTroId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Menu" Relationship="QRCodeModel.FK_PhanQuyen_Menu" FromRole="PhanQuyen" ToRole="Menu" />
+          <NavigationProperty Name="VaiTro" Relationship="QRCodeModel.FK_PhanQuyen_VaiTro" FromRole="PhanQuyen" ToRole="VaiTro" />
         </EntityType>
         <EntityType Name="TaiKhoan">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="VaiTroId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="VaiTro" Relationship="QRCodeModel.FK_TaiKhoan_VaiTro" FromRole="TaiKhoan" ToRole="VaiTro" />
         </EntityType>
         <EntityType Name="VaiTro">
           <Key>
@@ -123,6 +220,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Ten" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MenuId" Type="Int32" />
+          <NavigationProperty Name="Menu" Relationship="QRCodeModel.FK_VaiTro_Menu" FromRole="VaiTro" ToRole="Menu" />
+          <NavigationProperty Name="PhanQuyens" Relationship="QRCodeModel.FK_PhanQuyen_VaiTro" FromRole="VaiTro" ToRole="PhanQuyen" />
+          <NavigationProperty Name="TaiKhoans" Relationship="QRCodeModel.FK_TaiKhoan_VaiTro" FromRole="VaiTro" ToRole="TaiKhoan" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -139,6 +239,64 @@
           <Property Name="NganhDaoTao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="XepLoai" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_PhanQuyen_Menu">
+          <End Type="QRCodeModel.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="QRCodeModel.PhanQuyen" Role="PhanQuyen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhanQuyen">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VaiTro_Menu">
+          <End Type="QRCodeModel.Menu" Role="Menu" Multiplicity="0..1" />
+          <End Type="QRCodeModel.VaiTro" Role="VaiTro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VaiTro">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhanQuyen_VaiTro">
+          <End Type="QRCodeModel.VaiTro" Role="VaiTro" Multiplicity="1" />
+          <End Type="QRCodeModel.PhanQuyen" Role="PhanQuyen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VaiTro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhanQuyen">
+              <PropertyRef Name="VaiTroId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaiKhoan_VaiTro">
+          <End Type="QRCodeModel.VaiTro" Role="VaiTro" Multiplicity="1" />
+          <End Type="QRCodeModel.TaiKhoan" Role="TaiKhoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VaiTro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaiKhoan">
+              <PropertyRef Name="VaiTroId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -205,6 +363,17 @@
                 <ScalarProperty Name="Avatar" ColumnName="Avatar" />
                 <ScalarProperty Name="HoTen" ColumnName="HoTen" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QRCodeModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

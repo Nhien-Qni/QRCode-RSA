@@ -12,6 +12,11 @@ namespace QRCode_RSA.Controllers
     public class LoginController : Controller
     {
         QRCodeEntities db;
+        VaiTroController vt;
+        public LoginController()
+        {
+            VaiTroController vt = new VaiTroController();
+        }
         // GET: Login
         public ActionResult Index()
         {
@@ -58,7 +63,7 @@ namespace QRCode_RSA.Controllers
             var user = db.TaiKhoans.FirstOrDefault(n => n.Username == userViewModel.Username.Trim() && n.Password == userViewModel.Password);
             if (user != null && user.Username != null)
             {
-                Session["PhanQuyen"] = _vaiTroRepository.VaiTroPhanQuyenStr(user.VaiTroId.GetValueOrDefault());
+                Session["PhanQuyen"] = new VaiTroController().VaiTroPhanQuyenStr(user.VaiTroId);
                 Session["User"] = !string.IsNullOrEmpty(user.Username) ? user.Username : "";
                 return RedirectToAction("Index", "RSA");
             }

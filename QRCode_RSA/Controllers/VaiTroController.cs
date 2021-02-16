@@ -9,29 +9,29 @@ using System.Web.Mvc;
 
 namespace QRCode_RSA.Controllers
 {
-    public class MenuController : Controller
+    public class VaiTroController : Controller
     {
         QRCodeEntities db;
-        public MenuController()
+        public VaiTroController()
         {
             db = new QRCodeEntities();
         }
         // GET: TaiKhoan
-        [IsAuthorize(MenuKey = "Menu")]
+        [IsAuthorize(MenuKey = "VaiTro")]
         public ActionResult Index()
         {
-            return View(db.Menus.ToList());
+            return View(db.VaiTroes.ToList());
         }
         [HttpPost]
-        [IsAuthorize(MenuKey = "Menu")]
-        public ActionResult ThemSua(Menu menu)
+        [IsAuthorize(MenuKey = "VaiTro")]
+        public ActionResult ThemSua(VaiTro vaitro)
         {
-            int id = menu.Id;
+            int id = vaitro.Id;
             if (id == 0)
             {
                 try
                 {
-                    db.Menus.Add(menu);
+                    db.VaiTroes.Add(vaitro);
                     db.SaveChanges();
                     return Json(new { Id = 0, JsonRequestBehavior.AllowGet });
                 }
@@ -43,11 +43,11 @@ namespace QRCode_RSA.Controllers
             }
             else
             {
-                var check = db.Menus.AsNoTracking().FirstOrDefault(n => n.Id == menu.Id);
+                var check = db.VaiTroes.AsNoTracking().FirstOrDefault(n => n.Id == vaitro.Id);
                 if (check != null)
                 {
-                    check.MoTa = menu.MoTa;
-                    check.Ten = menu.Ten;
+                    check.MenuId = vaitro.MenuId;
+                    check.Ten = vaitro.Ten;
                     db.Entry(check).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
@@ -55,10 +55,10 @@ namespace QRCode_RSA.Controllers
             }
         }
         [HttpPost]
-        [IsAuthorize(MenuKey = "Menu")]
+        [IsAuthorize(MenuKey = "VaiTro")]
         public ActionResult GetItem(int Id)
         {
-            var check = db.Menus.FirstOrDefault(n => n.Id == Id);
+            var check = db.VaiTroes.FirstOrDefault(n => n.Id == Id);
             var data = JsonConvert.SerializeObject(check, Formatting.Indented,
                            new JsonSerializerSettings
                            {
@@ -67,18 +67,30 @@ namespace QRCode_RSA.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        [IsAuthorize(MenuKey = "Menu")]
+        [IsAuthorize(MenuKey = "VaiTro")]
         public ActionResult XoaItem(int Id)
         {
-            var check = db.Menus.FirstOrDefault(n => n.Id == Id);
+            var check = db.VaiTroes.FirstOrDefault(n => n.Id == Id);
             if (check != null)
             {
-                db.Menus.Remove(check);
+                db.VaiTroes.Remove(check);
                 db.SaveChanges();
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             else
                 return Json(false, JsonRequestBehavior.AllowGet);
+        }
+        public List<string> VaiTroPhanQuyenStr(int vaitroId)
+        {
+            using (var db = new QRCodeEntities())
+            {
+                var data = (from entity in db.PhanQuyens
+                            where entity.VaiTroId == vaitroId
+                            select entity.Menu.Ten
+                            ).ToList();
+
+                return data;
+            }
         }
     }
 }
