@@ -234,6 +234,7 @@
     </Compile>
     <Compile Include="Models\ViewModel\TaiKhoanViewModel.cs" />
     <Compile Include="Models\ViewModel\UserViewModel.cs" />
+    <Compile Include="Models\ViewModel\VaiTroViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tool\TaoMa.cs" />
   </ItemGroup>
@@ -262,6 +263,7 @@
     <Content Include="Storage\Doc1.docx" />
     <Content Include="Views\TaiKhoan\Index.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\VaiTro\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -278,7 +280,6 @@
     <Folder Include="Content\vendor\jquery-ui-1.12.1\" />
     <Folder Include="Content\vendor\jquery\" />
     <Folder Include="Properties\App_Data\" />
-    <Folder Include="Views\VaiTro\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

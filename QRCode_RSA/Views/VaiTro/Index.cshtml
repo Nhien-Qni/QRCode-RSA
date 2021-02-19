@@ -1,6 +1,8 @@
-﻿@model List<QRCode_RSA.Models.Menu>
-@{
-    ViewBag.Title = "Menu";
+﻿@using Newtonsoft.Json;
+@using QRCode_RSA.Models.ViewModel;
+@model  VaiTroViewModel  
+@{   
+    ViewBag.Title = "Vai Trò";
     Layout = "~/Views/Shared/_LoginLayoutPage.cshtml";
 }
 <div class="col-sm-12 col-xs-12 p-t-10 p-b-10 btn-add-mb">
@@ -14,7 +16,7 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <div class="card-title">
-                            <b>DANH SÁCH MENU</b>
+                            <b>DANH SÁCH NGƯỜI DÙNG</b>
                         </div>
                     </div>
                     <div class="card-body">
@@ -27,26 +29,26 @@
                                                 STT
                                             </td>
                                             <td class="title">
-                                               Key
+                                                Tên
                                             </td>
                                             <td class="title">
-                                               Mô tả
+                                                Menu chính
                                             </td>
                                             <td></td>
                                             <td></td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (Model != null && Model.Count > 0)
+                                        @if (Model != null && Model.VaiTro.Count > 0)
                                         {
-                                            for (int i = 1; i <= Model.Count; i++)
+                                            for (int i = 1; i <= Model.VaiTro.Count; i++)
                                             {
                                                 <tr>
                                                     <td> @i</td>
-                                                    <td> @Model[i - 1].Ten</td>
-                                                    <td> @Model[i - 1].MoTa</td>
-                                                    <td><button id='btn-update-item' onclick="showpopSua(@Model[i - 1].Id)" class='btn btn-primary'><i class='fa fa-pencil'></i> Sửa</button></td>
-                                                    <td><button id='btn-delete-item' onclick="Xoa(@Model[i - 1].Id)" class='btn btn-danger'><i class='fa fa-times'></i> Xóa</button></td>
+                                                    <td> @Model.VaiTro[i - 1].Ten</td>
+                                                    <td> @Model.VaiTro[i - 1].Menu.MoTa</td>
+                                                    <td><button id='btn-update-item' onclick="showpopSua(@Model.VaiTro[i - 1].Id)" class='btn btn-primary'><i class='fa fa-pencil'></i> Sửa</button></td>
+                                                    <td><button id='btn-delete-item' onclick="Xoa(@Model.VaiTro[i - 1].Id)" class='btn btn-danger'><i class='fa fa-times'></i> Xóa</button></td>
                                                 </tr>
                                             }
                                         }
@@ -62,7 +64,7 @@
         </div>
     </div>
 </section>
-<div class="modal fade in" id="MenuModal">
+<div class="modal fade in" id="VaiTroModal">
     <div class="modal-dialog" style="max-width:60%">
         <div class="modal-content col-md-12">
             <div class="modal-header">
@@ -82,19 +84,57 @@
                                         </label>
 
                                         <input type="text" class="form-control" id="Ten" value=""
-                                               placeholder="Nhập tên menu không dấu">
+                                               placeholder="Nhập tên">
                                         <p id="ErrorTen" class="text-danger m-b-0"></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
-                                            Mô tả:
+                                            Menu chính
                                         </label>
                                         <div class="input-group">
-                                            <input type="text" id="MoTa" class="form-control"  placeholder="Nhập mô tả" />
+                                            <select id="MenuId" name="MenuId" class="form-control">
+                                                <option value="0">-- Chọn menu --</option>
+                                                @foreach (var item in Model.ListMenu)
+                                                {
+                                                    <option value="@item.Id">@item.MoTa
+                                                </option>
+                                                }
+                                            </select>
                                         </div>
-                                        <p id="ErrorMoTa" class="text-danger m-b-0"></p>
+                                        <p id="ErrorMenuId" class="text-danger m-b-0"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+
+                                        <table class="table table-fixed table-hover" style="width: 100%;border: 1px;">
+                                            <thead>
+                                                <tr>
+                                                    <td class="title" style="font-weight: bold">
+                                                       Danh sách menu
+                                                    </td>
+                                                    <td class="title">
+                                                        <input type="checkbox" id="SelectAll" />
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="BangVaiTro">
+                                                @if (Model != null && Model.ListMenu.Count > 0)
+                                                {
+                                                    for (int i = 1; i <= Model.ListMenu.Count; i++)
+                                                    {
+                                                        <tr>
+                                                            <td> @Model.ListMenu[i - 1].MoTa</td>
+                                                            <td> <input type="checkbox" id="@Model.ListMenu[i-1].Id" /></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -117,8 +157,9 @@
 </div>
 <script>
     function showpopThem() {
-        $("#MenuModal").modal()
+        $("#VaiTroModal").modal()
         $("#formpost")[0].reset();
+        $( 'input[type="checkbox"]' ).prop('checked', false);
         $("#btn-add").html("<i class='fa fa-plus'></i> Thêm mới");
         $("#titleModel").html(translate("Thêm mới"));
         $("#Id").val(0);
@@ -126,8 +167,10 @@
         clearError();
     }
     function showpopSua(id) {
+        $("#BangVaiTro").html("");
+        $("#formpost")[0].reset();
         $.ajax({
-            url: '/Menu/GetItem',
+            url: '/VaiTro/GetItem',
             type: "POST",
             dataType: "json",
             data: {"Id": id},
@@ -136,8 +179,38 @@
                 if (data && data.Id > 0) {
                     $("#Id").val(data.Id)
                     $("#Ten").val(data.Ten);
-                    $("#MoTa").val(data.MoTa);
-                    $("#MenuModal").modal()
+                    $("#MenuId").val(data.MenuId);
+                   
+                    var duLieu = @Html.Raw(Json.Encode(JsonConvert.SerializeObject(Model.ListMenu, Formatting.Indented,
+                           new JsonSerializerSettings
+                           {
+                               ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                           })));
+                        var table = "";
+                        $.each(JSON.parse(duLieu), function (index, item) {
+                            table = table + "<tr>" +
+                                "<td>" +item.MoTa + "</td>";
+                            ;
+                            if (data.PhanQuyens.length > 0)
+                            {
+                                if  (data.PhanQuyens.findIndex(x=> x.MenuId == item.Id) > -1)
+                                {
+                                    table = table + "<td> <input type='checkbox' checked id='" +item.Id +"' /></td>";
+                                }
+                                else
+                                {
+                                    table = table +  "<td> <input type='checkbox' id='" +item.Id +"' /></td>";
+                                }
+                            }
+                            else
+                            {
+                                table = table +  "<td> <input type='checkbox' id='" +item.Id +"' /></td>";
+                            }
+                            "</tr>";
+                        });
+                        $("#BangVaiTro").html(table);
+                   
+                    $("#VaiTroModal").modal()
                     $("#btn-add").html("<i class='fa fa-plus'></i> Cập nhật");
                     $("#titleModel").html(translate("Cập nhật"));
                     $("#btn-loading").addClass("invisible");
@@ -157,7 +230,7 @@
     }
     function clearError() {
         $("#ErrorTen").hide();
-        $("#ErrorMoTa").hide();
+        $("#ErrorMenuId").hide();
     }
     function Post() {
         openButtonFooter();
@@ -165,7 +238,7 @@
         var fd = new FormData();
         fd.append("Id",  $("#Id").val());
         fd.append("Ten", $("#Ten").val());
-        fd.append("MoTa", $("#MoTa").val());
+        fd.append("MenuId", $("#MenuId").val());
 
         $.ajax({
             url: '/Menu/ThemSua',
@@ -242,5 +315,8 @@
             location.reload();
         }, 1000);
     }
+    $("#SelectAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
 </script>
 

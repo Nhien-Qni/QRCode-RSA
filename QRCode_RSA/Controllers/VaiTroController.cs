@@ -1,8 +1,10 @@
 ﻿using Dashboard.Common;
 using Newtonsoft.Json;
 using QRCode_RSA.Models;
+using QRCode_RSA.Models.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,7 +22,10 @@ namespace QRCode_RSA.Controllers
         [IsAuthorize(MenuKey = "VaiTro")]
         public ActionResult Index()
         {
-            return View(db.VaiTroes.ToList());
+            VaiTroViewModel mymodel = new VaiTroViewModel();
+            mymodel.VaiTro = db.VaiTroes.ToList();
+            mymodel.ListMenu = db.Menus.ToList();
+            return View(mymodel);
         }
         [HttpPost]
         [IsAuthorize(MenuKey = "VaiTro")]
