@@ -65,7 +65,7 @@ namespace QRCode_RSA.Controllers
             {
                 Session["PhanQuyen"] = new VaiTroController().VaiTroPhanQuyenStr(user.VaiTroId);
                 Session["User"] = !string.IsNullOrEmpty(user.Username) ? user.Username : "";
-                return RedirectToAction("Index", "RSA");
+                return RedirectToAction("Index", user.VaiTro.Menu.Ten);
             }
 
             ViewBag.ErrorMessage = $"<ol><li>Tên truy cập hoặc mật khẩu không đúng</li></ol>";

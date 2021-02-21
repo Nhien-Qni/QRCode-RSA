@@ -239,9 +239,13 @@
         fd.append("Id",  $("#Id").val());
         fd.append("Ten", $("#Ten").val());
         fd.append("MenuId", $("#MenuId").val());
-
+        for (var i =0; i < $( "input:checked:not('#SelectAll')" ).length; i ++)
+        {
+            fd.append("PhanQuyens["+i+"].MenuId",$( "input:checked:not('#SelectAll')" )[i].id);
+            fd.append("PhanQuyens["+i+"].VaiTroId", $("#Id").val());
+        }
         $.ajax({
-            url: '/Menu/ThemSua',
+            url: '/VaiTro/ThemSua',
             type: "POST",
             dataType: "json",
             processData: false,
@@ -251,13 +255,13 @@
                 if (data && data.Id > 0) {
                     //$('#bs-table').bootstrapTable('refresh');
                     toastr.success(translate("cap_nhat_thanh_cong"));
-                    $("#MenuModal").modal("hide");
+                    $("#VaiTroModal").modal("hide");
                     waitsecond();
                     $("#formpost")[0].reset();
                 }
                 else if (data && data.Id == 0) {
                     toastr.success(translate("them_thanh_cong"));
-                    $("#MenuModal").modal("hide");
+                    $("#VaiTroModal").modal("hide");
                     waitsecond();
                     $("#formpost")[0].reset();
                 }
@@ -284,7 +288,7 @@
             return;
         }
         $.ajax({
-            url: '/Menu/XoaItem',
+            url: '/VaiTro/XoaItem',
             type: "POST",
             dataType: "json",
             data: { "Id": id },

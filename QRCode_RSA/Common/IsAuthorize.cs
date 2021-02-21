@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Dashboard.Common
+namespace QRCode_RSA.Common
 {
     public class IsAuthorize : AuthorizeAttribute, IAuthorizationFilter
     {

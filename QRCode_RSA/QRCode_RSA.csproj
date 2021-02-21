@@ -181,6 +181,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\IsAuthorize.cs" />
+    <Compile Include="Common\MenuHelper.cs" />
     <Compile Include="Content\ultilities\Common.cs" />
     <Compile Include="Content\ultilities\ValidateError.cs" />
     <Compile Include="Controllers\LoginController.cs" />

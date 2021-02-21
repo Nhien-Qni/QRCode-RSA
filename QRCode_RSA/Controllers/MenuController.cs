@@ -1,4 +1,4 @@
-﻿using Dashboard.Common;
+﻿using QRCode_RSA.Common;
 using Newtonsoft.Json;
 using QRCode_RSA.Models;
 using System;
@@ -73,12 +73,14 @@ namespace QRCode_RSA.Controllers
             var check = db.Menus.FirstOrDefault(n => n.Id == Id);
             if (check != null)
             {
-                db.Menus.Remove(check);
-                db.SaveChanges();
-                return Json(true, JsonRequestBehavior.AllowGet);
+                if (db.PhanQuyens.FirstOrDefault(n => n.MenuId == check.Id) == null && db.VaiTroes.FirstOrDefault(n => n.MenuId == check.Id) == null)
+                {
+                    db.Menus.Remove(check);
+                    db.SaveChanges();
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
-            else
-                return Json(false, JsonRequestBehavior.AllowGet);
+            return Json(false, JsonRequestBehavior.AllowGet);
         }
     }
 }

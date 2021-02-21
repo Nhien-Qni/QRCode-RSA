@@ -18,7 +18,7 @@ using Microsoft.Office.Interop.Word;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Threading;
-using Dashboard.Common;
+using QRCode_RSA.Common;
 
 namespace QRCode_RSA.Controllers
 {
@@ -45,13 +45,13 @@ namespace QRCode_RSA.Controllers
             }
         }
         // GET: TaoMa
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "QR")]
         public ActionResult Index()
         {
             return View(db.Users.ToList());
         }
         [HttpPost]
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "QR")]
         public ActionResult TaoQR(int id)
         {
             try
@@ -65,7 +65,7 @@ namespace QRCode_RSA.Controllers
                 var duLieu = _iMapperView.Map<User, UserViewModel>(user);
                 var data = user.Id + ",$$$$$ " + Convert.ToBase64String(Encoding.UTF8.GetBytes(user.HoTen)) + ",$$$$$ " + (user.NgaySinh != null ? user.NgaySinh.ToString() : "") + ",$$$$$ " + user.SoHieu.ToString() + ",$$$$$ " + (user.SoBangCap != null ? user.SoBangCap.ToString() : "") + ",$$$$$ " + savefilename;
                 // Tạo PublicKey, PrivateKey
-                byte[] duLieuBam = Common.HashString(data);
+                byte[] duLieuBam = QRCode_RSA.Content.ultilities.Common.HashString(data);
                 //var t = Convert.ToBase64String(duLieuBam);
                 var duLieuMaHoa = rsa.Encrypt_string(rsa.PublicOnlyKeyXML, duLieuBam);
                 if (duLieuMaHoa.Contains("Mã hóa thất bại"))
@@ -75,7 +75,7 @@ namespace QRCode_RSA.Controllers
                 string TaoQR = data + ",$$$$$ " + duLieuMaHoa;
                 //string TaoQR = Common.FromHexString(duLieuMaHoa);
                 // Tạo QR Image
-                var linkQRImage = Common.TaoQRCode(TaoQR);
+                var linkQRImage = QRCode_RSA.Content.ultilities.Common.TaoQRCode(TaoQR);
                 var file = ConvertWordtoImage(duLieu, linkQRImage, savefilename);
                 System.IO.File.Delete(linkQRImage);
                 return new JsonResult()
@@ -92,7 +92,7 @@ namespace QRCode_RSA.Controllers
             }
         }
         [HttpPost]
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "QR")]
         public ActionResult ThemSua(UserViewModel user)
         {
             int id = user.Id;
@@ -138,7 +138,7 @@ namespace QRCode_RSA.Controllers
             }
         }
         [HttpPost]
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "QR")]
         public ActionResult GetItem(int Id)
         {
             var check = db.Users.FirstOrDefault(n => n.Id == Id);
@@ -146,7 +146,7 @@ namespace QRCode_RSA.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "QR")]
         public ActionResult XoaItem(int Id)
         {
             var check = db.Users.FirstOrDefault(n => n.Id == Id);

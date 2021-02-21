@@ -14,7 +14,7 @@ using System.Drawing.Imaging;
 using Microsoft.Office.Interop.Word;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using Dashboard.Common;
+using QRCode_RSA.Common;
 
 namespace QRCode_RSA.Controllers
 {
@@ -38,13 +38,13 @@ namespace QRCode_RSA.Controllers
 
         }
         // GET: TrangChu
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "TrangChu")]
         public ActionResult Index()
         {
             return View();
         }
         [HttpPost]
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "TrangChu")]
         public JsonResult QuetMa(string key)
         {
             try
@@ -80,7 +80,7 @@ namespace QRCode_RSA.Controllers
                 var bangroD = rsa.Decrypt_string(rsa.PrivateKeyXML, splitkey[6]);
                 if (!string.IsNullOrEmpty(bangroD) && !string.IsNullOrEmpty(data))
                 {
-                    if (bangroD.Equals(Encoding.Unicode.GetString(Common.HashString(data))))
+                    if (bangroD.Equals(Encoding.Unicode.GetString(QRCode_RSA.Content.ultilities.Common.HashString(data))))
                     {
                         var duLieu = _iMapperView.Map<User, UserViewModel>(check);
                         duLieu.savefilename = "/Storage/images/" + savefilename + ".png";

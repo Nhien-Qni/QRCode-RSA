@@ -1,4 +1,4 @@
-﻿using Dashboard.Common;
+﻿using QRCode_RSA.Common;
 using QRCode_RSA.Models;
 using System;
 using System.Collections.Generic;
@@ -18,14 +18,14 @@ namespace QRCode_RSA.Controllers
             rsa = new Tool.TaoMa();
         }
         // GET: RSA
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "RSA")]
         public ActionResult Index()
         {
             if (db.RSAs.FirstOrDefault() != null)
                 return View(db.RSAs.FirstOrDefault());
             return View();
         }
-        [IsAuthorize]
+        [IsAuthorize(MenuKey = "RSA")]
         public ActionResult TaoKey(string data)
         {
             try

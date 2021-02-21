@@ -46,7 +46,7 @@ namespace QRCode_RSA.Controllers
                 data = Regex.Replace(data,match,"");
             }
             // Tạo PublicKey, PrivateKey
-            byte[] duLieuBam = Common.HashString(data);
+            byte[] duLieuBam = QRCode_RSA.Content.ultilities.Common.HashString(data);
             //var t = Convert.ToBase64String(duLieuBam);
             var duLieuMaHoa = rsa.Encrypt_string(rsa.PublicOnlyKeyXML, duLieuBam);
             if (duLieuMaHoa.Contains("Mã hóa thất bại"))

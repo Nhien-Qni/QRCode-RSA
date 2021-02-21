@@ -1,4 +1,4 @@
-﻿using Dashboard.Common;
+﻿using QRCode_RSA.Common;
 using Newtonsoft.Json;
 using QRCode_RSA.Content.ultilities;
 using QRCode_RSA.Models;
@@ -72,7 +72,7 @@ namespace QRCode_RSA.Controllers
                 });
             }
 
-            if (String.IsNullOrEmpty(user.Password.ToString()) || String.IsNullOrEmpty(user.Password.ToString().Trim()))
+            if (String.IsNullOrEmpty(user.Password) || String.IsNullOrEmpty(user.Password.Trim()))
             {
 
                 errors.Add(new ValidateError
