@@ -9,5 +9,6 @@ namespace QRCode_RSA.Models
     {
         public string Content { get; set; }
         public string FileName { get; set; }
+        public string txtMaQuet { get; set; }
     }
 }

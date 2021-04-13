@@ -77,6 +77,7 @@ namespace QRCode_RSA.Controllers
                 // Tạo QR Image
                 var linkQRImage = QRCode_RSA.Content.ultilities.Common.TaoQRCode(TaoQR);
                 var file = ConvertWordtoImage(duLieu, linkQRImage, savefilename);
+                file.txtMaQuet = TaoQR;
                 System.IO.File.Delete(linkQRImage);
                 return new JsonResult()
                 {

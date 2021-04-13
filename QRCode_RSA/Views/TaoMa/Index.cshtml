@@ -84,6 +84,8 @@
         </div>
     </div>
 </section>
+<div style="clear:both;height:40px;"></div>
+<textarea id="txtMaQuet" style="width:100%" rows="3"> </textarea>
 <div class="modal fade in" id="UserModal">
     <div class="modal-dialog" style="max-width:60%">
         <div class="modal-content col-md-12">
@@ -297,6 +299,7 @@
                 if (data != null && data.isError == null && data.Content != null)
                 {
                     base64toImage(data.Content, data.FileName);
+                    $("#txtMaQuet").val(data.txtMaQuet);
                 }    
                 else
                     toastr.error(data.isError);
